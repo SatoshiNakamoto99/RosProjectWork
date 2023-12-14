@@ -22,7 +22,7 @@ r.dynamic_energy_threshold = False
 r.energy_threshold = 150 #Modify here to set threshold. Reference: https://github.com/Uberi/speech_recognition/blob/1b737c5ceb3da6ad59ac573c1c3afe9da45c23bc/speech_recognition/__init__.py#L332
 m = sr.Microphone(device_index=None,
                     sample_rate=16000,
-                    chunk_size=1024)
+                    chunk_size=2048)
 
 # Calibration within the environment
 # we only need to calibrate once, before we start listening

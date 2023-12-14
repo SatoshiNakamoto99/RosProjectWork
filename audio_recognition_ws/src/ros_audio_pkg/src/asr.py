@@ -6,7 +6,13 @@ import numpy as np
 from speech_recognition import AudioData
 import speech_recognition as sr
 import openai
+import os
+import sys
+#OPENAI_API_KEY = os.environ["OPENAI_API_KEY_FREE"]
 
+
+
+#OPENAI_API_KEY = os.getenv("OPENAI_API_KEY_FREE")
 # Initialize a Recognizer
 r = sr.Recognizer()
 
@@ -14,15 +20,17 @@ r = sr.Recognizer()
 rospy.init_node('speech_recognition', anonymous=True)
 pub1 = rospy.Publisher('voice_data', Int16MultiArray, queue_size=10)
 pub2 = rospy.Publisher('voice_txt', String, queue_size=10)
-
+#OPENAI_API_KEY = "INSERT OPENAI API KEY HERE"
+#try:
+#    print(f"Whisper API thinks you said {.recognizre_whisper_api(audio, api_key=OPENAI_API_KEY)}")
 # this is called from the background thread
 def callback(audio):
     data = np.array(audio.data,dtype=np.int16)
     audio_data = AudioData(data.tobytes(), 16000, 2)
 
     try:
-        spoken_text= r.recognize_google(audio_data, language='it-IT')
-        #spoken_text= r.recognize_whisper(audio_data, language='it-IT')
+        spoken_text= r.recognize_google(audio_data, language='en-GB')
+        #spoken_text = r.recognize_whisper_api(audio_data, api_key=OPENAI_API_KEY)
         
         #print("Whisper Speech Recognition pensa tu abbia detto: " + spoken_text)
         print("Google Speech Recognition pensa tu abbia detto: " + spoken_text)
