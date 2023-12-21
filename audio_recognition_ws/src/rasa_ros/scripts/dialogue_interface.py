@@ -18,7 +18,7 @@ class Handler:
     '''
     def call(self, text: str):
         msg = Text2SpeechRequest()
-        msg.speech = text
+        msg.speech = text.lower()
         resp = self.tts(text)
         rospy.loginfo(resp.ack)
 
@@ -46,19 +46,25 @@ def audio_callback(msg):
       #  break
     try:
         bot_answer = dialogue_service(msg.data) # chiamata servizio
+        
         print("[IN]: ", msg.data)
         terminal.set_text(bot_answer.answer)    # deve arrivare a pepper
-        handler.call(bot_answer.answer)         # deve arrivare a pepper    
+        
+        #handler.call(bot_answer.answer)
+        #if bot_answer.answer == 'Bye':
+        #    pub.publish('end')
     except rospy.ServiceException as e:
         print("Service call failed: %s"%e)
         
 dialogue_service = rospy.ServiceProxy('dialogue_server', Dialogue)
-    
+pub = rospy.Publisher('state', String, queue_size=1) 
 terminal = TerminalInterface()
 handler = Handler()
 def main():
     rospy.init_node('writing')
     rospy.wait_for_service('dialogue_server')
+    
+    
     
 
     

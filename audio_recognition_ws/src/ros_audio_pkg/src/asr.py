@@ -19,7 +19,7 @@ r = sr.Recognizer()
 # Init node
 rospy.init_node('speech_recognition', anonymous=True)
 pub1 = rospy.Publisher('voice_data', Int16MultiArray, queue_size=10)
-pub2 = rospy.Publisher('voice_txt', String, queue_size=10)
+pub2 = rospy.Publisher('voice_txt', String, queue_size=0)
 #OPENAI_API_KEY = "INSERT OPENAI API KEY HERE"
 #try:
 #    print(f"Whisper API thinks you said {.recognizre_whisper_api(audio, api_key=OPENAI_API_KEY)}")
