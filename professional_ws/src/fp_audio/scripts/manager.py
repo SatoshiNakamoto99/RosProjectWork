@@ -25,7 +25,7 @@ class ManagerNode(object):
         self._mutex_human_presence = Lock()
         self._persistent_services = dict()  # dict str -> Touple[func, module]
         self._verbose = verbose
-        self._previous_human_presence = False
+        #self._previous_human_presence = False
         #self._engage = False
     
     def _persistence_service_init(self, service_name, service_srv)-> None:
@@ -133,15 +133,15 @@ class ManagerNode(object):
         #       assume if this function is running that state this value is just changed.
         
         self._mutex_human_presence.acquire()
-        self._previous_human_presence = self._human_presence
+        #self._previous_human_presence = self._human_presence
         self._human_presence = presence.data
         
-        if self._human_presence and not self._previous_human_presence:
-            # Transition from S0 to S1
-            if self._verbose:
-                print('[Manager Node] Tracking: Transation from S0 to S1')
-            # Call the service to say Hi to the user
-            self._t2s('Hello')
+        # if self._human_presence and not self._previous_human_presence:
+        #     # Transition from S0 to S1
+        #     if self._verbose:
+        #         print('[Manager Node] Tracking: Transation from S0 to S1')
+        #     # Call the service to say Hi to the user
+        #     self._t2s('Hello')
         #    # Set the flag to engage the chatbot
         #    self._engage = True
         # else:

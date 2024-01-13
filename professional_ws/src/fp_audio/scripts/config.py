@@ -14,7 +14,7 @@ CHATBOT_RUNNING = True
 CHUNK_SIZE = 1024
 
 # This parameter is the minimum confidence to the detection.
-FACE_MIN_DETECTION_CONFIDENCE = 0.7
+FACE_MIN_DETECTION_CONFIDENCE = 0.5
 
 # The maximum number of frame with different state before changing that
 HUMAN_PRESENCE_GHOST_FRAME = 15
