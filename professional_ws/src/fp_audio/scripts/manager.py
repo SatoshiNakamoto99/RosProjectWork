@@ -25,8 +25,8 @@ class ManagerNode(object):
         self._mutex_human_presence = Lock()
         self._persistent_services = dict()  # dict str -> Touple[func, module]
         self._verbose = verbose
-        #self._previous_human_presence = False
-        #self._engage = False
+        self._previous_human_presence = False
+        self._engage = False
     
     def _persistence_service_init(self, service_name, service_srv)-> None:
         """Init a persistent connection to a service and store the needed parameters.
@@ -133,20 +133,20 @@ class ManagerNode(object):
         #       assume if this function is running that state this value is just changed.
         
         self._mutex_human_presence.acquire()
-        #self._previous_human_presence = self._human_presence
+        self._previous_human_presence = self._human_presence
         self._human_presence = presence.data
         
-        # if self._human_presence and not self._previous_human_presence:
-        #     # Transition from S0 to S1
-        #     if self._verbose:
-        #         print('[Manager Node] Tracking: Transation from S0 to S1')
+        if self._human_presence and not self._previous_human_presence:
+             # Transition from S0 to S1
+            if self._verbose:
+                print('[Manager Node] Tracking: Transation from S0 to S1')
         #     # Call the service to say Hi to the user
         #     self._t2s('Hello')
-        #    # Set the flag to engage the chatbot
-        #    self._engage = True
-        # else:
-        #     # set the flag to disengage the chatbot
-        #     self._engage = False
+           # Set the flag to engage the chatbot
+            self._engage = True
+        else:
+            # set the flag to disengage the chatbot
+            self._engage = False
 
         if self._human_presence:
             # ______________________________________________________________________________  
@@ -218,7 +218,11 @@ class ManagerNode(object):
 
         while not rospy.is_shutdown():
             rate.sleep()
-            
+            if self._engage:
+                self._t2s("Hello")
+                if self._verbose:
+                    print(f'[Manager Node] 0. Engage phase')
+                
             # ______________________________________________________________________________
             # 1.    This method must be thread-safe, so we check with a mutex. 
             #       In case no human is in front of Pepper, we stop the unnecessary run.

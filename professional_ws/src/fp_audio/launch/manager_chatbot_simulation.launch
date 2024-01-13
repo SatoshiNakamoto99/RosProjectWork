@@ -8,5 +8,5 @@
     <node pkg="fp_audio" type="speech2text.py" name="speech2text" output="screen"/>
     <node pkg="fp_audio" type="image_publisher.py" name="image_publisher" output="screen"/>
     <node pkg="fp_audio" type="video_detector.py" name="video_detector" output="screen"/>
-    <node pkg="fp_audio" type="manager.py" name="manager" output="screen"/>
+    <node pkg="fp_audio" type="manager.py" name="manager" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
 </launch>
