@@ -274,8 +274,12 @@ class ManagerNode(object):
             self._mutex_human_presence.acquire()
             if not self._human_presence:
                 self._mutex_human_presence.release()
+                if self._verbose:
+                    print(f'[Manager Node] 3. Human presence lost.')
                 continue
             else:
+                if self._verbose:
+                    print(f'[Manager Node] 3. Human presence still here.')
                 self._mutex_human_presence.release()
             
             # ______________________________________________________________________________
