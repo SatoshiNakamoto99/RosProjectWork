@@ -220,7 +220,7 @@ class ManagerNode(object):
                 self._t2s("Hello")
                 if self._verbose:
                     print(f'[Manager Node] 0. Engage phase')
-                self._engage = False
+            self._engage = False
             # ______________________________________________________________________________
             # 1.    This method must be thread-safe, so we check with a mutex. 
             #       In case no human is in front of Pepper, we stop the unnecessary run.
