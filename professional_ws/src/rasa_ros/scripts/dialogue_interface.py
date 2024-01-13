@@ -25,8 +25,7 @@ class TerminalInterface:
   
   
 def main():
-    """This function start the simulation. Will repeteadly ask for the three parameters 
-    and prints the new parameters from the chatbot.
+    """This function start the simulation. 
     """
     rospy.init_node('writing')
     rospy.wait_for_service('dialogue_server')
