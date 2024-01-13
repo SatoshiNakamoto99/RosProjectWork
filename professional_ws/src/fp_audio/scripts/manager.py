@@ -144,11 +144,7 @@ class ManagerNode(object):
         #     self._t2s('Hello')
            # Set the flag to engage the chatbot
             self._engage = True
-        else:
-            if self._verbose:
-                print('[Manager Node] Tracking: Reset Engace')
-            # set the flag to disengage the chatbot
-            self._engage = False
+        
 
         if self._human_presence:
             # ______________________________________________________________________________  
