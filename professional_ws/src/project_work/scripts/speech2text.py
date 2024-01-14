@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from config import *
-from fp_audio.srv import Speech2Text, Speech2TextResponse
+from project_work.srv import Speech2Text, Speech2TextResponse
 import numpy as np
 import rospy
 from speech_recognition import AudioData

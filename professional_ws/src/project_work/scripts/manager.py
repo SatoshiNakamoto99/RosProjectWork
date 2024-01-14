@@ -94,7 +94,7 @@ class ManagerNode(object):
             response = bot_answer.answer
         else:
             "Simulate the chatbot interaction"
-            response = "Response: "
+            response = "I'm a simulated Chatbot "
             
         return response
     

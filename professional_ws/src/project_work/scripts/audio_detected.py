@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from config import *
-from fp_audio.srv import StartListening, StartListeningResponse
+from project_work.srv import StartListening, StartListeningResponse
 import numpy as np
 import rospy
 import speech_recognition as sr
