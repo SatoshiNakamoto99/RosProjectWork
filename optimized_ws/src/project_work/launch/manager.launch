@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="project_work" type="audio_detected.py" name="audio_detected" output="screen"/>
+    <node pkg="project_work" type="speech2text.py" name="speech2text" output="screen"/>
+    <node pkg="project_work" type="video_detector.py" name="video_detector" output="screen"/>
+    <node pkg="project_work" type="manager.py" name="manager" output="screen"/>
+</launch>
