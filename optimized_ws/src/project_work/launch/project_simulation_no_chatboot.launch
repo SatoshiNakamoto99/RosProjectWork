@@ -1,8 +1,5 @@
 <launch>
-    <arg name="node_start_delay" default="0.0"/>  
-    
-    
-   
+    <arg name="node_start_delay" default="0.0"/> 
     <node pkg="project_work" type="speech2text.py" name="speech2text_service" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
     <node pkg="project_work" type="audio_node.py" name="audio_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
     <node pkg="project_work" type="s2t_node.py" name="speech2text" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
