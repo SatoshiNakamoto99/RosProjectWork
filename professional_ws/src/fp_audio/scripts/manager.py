@@ -216,11 +216,16 @@ class ManagerNode(object):
 
         while not rospy.is_shutdown():
             rate.sleep()
+            #
+            # ______________________________________________________________________________
+            # 0.    If the engage flag is True, say hello to the user. After that set the
+            #       flag to False.
+            
             if self._engage:
                 self._t2s("Hello")
                 if self._verbose:
                     print(f'[Manager Node] 0. Engage phase')
-            self._engage = False
+                self._engage = False
             # ______________________________________________________________________________
             # 1.    This method must be thread-safe, so we check with a mutex. 
             #       In case no human is in front of Pepper, we stop the unnecessary run.

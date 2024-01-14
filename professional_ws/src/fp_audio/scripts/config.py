@@ -17,7 +17,7 @@ CHUNK_SIZE = 1024
 FACE_MIN_DETECTION_CONFIDENCE = 0.5
 
 # The maximum number of frame with different state before changing that
-HUMAN_PRESENCE_GHOST_FRAME = 15
+HUMAN_PRESENCE_GHOST_FRAME = 40
 
 # Topic in witch a std_msgs/Bool will be published if an human is present or not. 
 HUMAN_PRESENCE_TOPIC = '/track/human_presence'
