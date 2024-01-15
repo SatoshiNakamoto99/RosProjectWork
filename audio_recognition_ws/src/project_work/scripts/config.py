@@ -13,10 +13,6 @@ CHATBOT_RUNNING = False
 # -- 1024 is good for the pepper microphone
 CHUNK_SIZE = 1024
 
-# Flag: if True, the test mode will be activated.
-TEST_LISTEN_PEPPER = False
-
-TEST_INTERACTION = False
 
 # This parameter is the minimum confidence to the detection.
 FACE_MIN_DETECTION_CONFIDENCE = 0.5

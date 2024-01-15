@@ -182,7 +182,7 @@ class AudioNode(object):
                 continue
             if self._pepper_talk:
                 continue
-            self._start_liset = True              
+            self._start_listen = True              
             text = self._start_listening()
             if self._get_pepper_talk_during_listening() or not self._get_human_presence():
                 self._pepper_talk_during_listening=False
