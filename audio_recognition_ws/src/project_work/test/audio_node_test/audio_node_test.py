@@ -58,15 +58,15 @@ class AudioNodeTest(BaseTest):
         self.__read_config(os.path.join(text_path, "config_test.json"))
         
         if self._PEPPER_TALK:
-            self._pub_pepper_talk.publish(Bool(True))
+            self._pub_pepper_talk.publish(True)
         else:
-            self._pub_pepper_talk.publish(Bool(False))
+            self._pub_pepper_talk.publish(False)
             
         if self._HUMAN_PRESENCE:
-            self._pub_human_presence.publish(Bool(True))
+            self._pub_human_presence.publish(True)
         else:
-            self._pub_human_presence.publish(Bool(False))
-        self._pub_text.publish(String(self.__get_text()))
+            self._pub_human_presence.publish(False)
+        #self._pub_text.publish(String(self.__get_text()))
         self._test()
         self._cleanup()
         

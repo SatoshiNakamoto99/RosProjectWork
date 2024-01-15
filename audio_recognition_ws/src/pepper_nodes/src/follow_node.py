@@ -38,7 +38,12 @@ class FollowNode:
         self.tracker_service.stopTracker()
         self.tracker_service.unregisterAllTargets()
         self.motion_service.setStiffnesses("Head", 0.0)  # Disable head movement
-
+        #self.reset_head_position()
+        
+    def reset_head_position(self):
+        # Reset head position
+        self.motion_service.setAngles("Head", [0.0, 0.0], 0.5)
+        
 if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option("--ip", dest="ip", default="10.0.1.230")
