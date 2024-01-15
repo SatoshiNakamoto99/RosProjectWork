@@ -1,4 +1,0 @@
-<launch>
-        <node pkg="detection_pkg" type="face_detection_node.py" name="face_detection" output="screen"/>
-        <node pkg="detection_pkg" type="motion_node.py" name="motion" output="screen"/>
-</launch>

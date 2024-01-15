@@ -3,6 +3,7 @@ from utils import Session
 from pepper_nodes.srv import Text2Speech
 from optparse import OptionParser
 import rospy
+
 '''
 This class implements a ROS node able to call the Text to speech service of the robot
 '''

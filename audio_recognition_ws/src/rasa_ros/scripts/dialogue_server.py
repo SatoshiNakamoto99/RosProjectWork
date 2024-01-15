@@ -23,7 +23,7 @@ def handle_service(req):
 
     return response
 
-def main():
+def dialogue_start():
 
     # Server Initialization
     rospy.init_node('dialogue_service')
@@ -32,11 +32,21 @@ def main():
                         Dialogue, handle_service)
 
     rospy.logdebug('Dialogue server READY.')
+    print("""
+    ______  ___   _____  ___   ______ _____  ___ ________   __
+    | ___ \/ _ \ /  ___|/ _ \  | ___ \  ___|/ _ \|  _  \ \ / /
+    | |_/ / /_\ \\ `--./ /_\ \ | |_/ / |__ / /_\ \ | | |\ V / 
+    |    /|  _  | `--. \  _  | |    /|  __||  _  | | | | \ /  
+    | |\ \| | | |/\__/ / | | | | |\ \| |___| | | | |/ /  | |  
+    \_| \_\_| |_/\____/\_| |_/ \_| \_\____/\_| |_/___/   \_/  
+                                                            
+                                                            """)
+    print('[CHATBOT INTERFACE] ready.')
     rospy.spin()
 
 
 if __name__ == '__main__':
     try: 
-        main()
+        dialogue_start()
     except rospy.ROSInterruptException as e:
         pass
