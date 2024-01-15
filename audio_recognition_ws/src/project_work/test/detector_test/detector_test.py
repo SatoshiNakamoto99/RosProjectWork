@@ -62,8 +62,9 @@ class DetectorTest(BaseTest):
         test_cases = os.listdir(TEST_PATH)
         test_cases.sort()
         for test in test_cases:
-            if not os.path.isfile(os.path.join(TEST_PATH,test)):
-                self.__test_case(test)
+            if (test!="__pycache__" and test!="detector_test.py"):
+                if not os.path.isfile(os.path.join(TEST_PATH,test)):
+                    self.__test_case(test)
 
 if __name__ == "__main__":
     try:
