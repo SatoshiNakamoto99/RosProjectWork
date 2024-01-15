@@ -79,12 +79,7 @@ class AudioNodeTest(BaseTest):
         test_cases = os.listdir(TEST_PATH)
         test_cases.sort()
         for test in test_cases:
-<<<<<<< HEAD
-            print(test)
-            if (test!="__pycache__" and test!="base_test.py" and test!="config.py"):
-=======
             if test!="__pycache__" and test!="base_test.py" and test!="audio_node_test.py" and test!=".gitignore" and test!=".git":
->>>>>>> 7eb35071be27e9bc4462a19f1f4cca0e9f7ef2b3
                 if not os.path.isfile(os.path.join(TEST_PATH,test)):
                     self.__test_case(test)
                     self._test()
