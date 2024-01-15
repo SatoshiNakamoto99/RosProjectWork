@@ -13,9 +13,9 @@ if __name__ == '__main__':
             print('[Starter Node] Pepper wakeup')
         caller._service_call('wakeup', WakeUp)
 
-        # if _verbose:
-        #     print('[Starter Node] Pepper startfollowing')
-        # caller._service_call('startFollowing', StartFollowing)
+        if _verbose:
+            print('[Starter Node] Pepper startfollowing')
+        caller._service_call('startFollowing', StartFollowing)
         
     if _verbose:
         print('[Starter Node] Starting done.')
