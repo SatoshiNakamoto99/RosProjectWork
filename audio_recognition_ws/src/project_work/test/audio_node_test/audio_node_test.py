@@ -67,7 +67,8 @@ class AudioNodeTest(BaseTest):
         else:
             self._pub_human_presence.publish(Bool(False))
         self._pub_text.publish(String(self.__get_text()))
-        
+        self._test()
+        self._cleanup()
         
     def __handle_user_input(self, data):
         self._set_output(True)
@@ -82,8 +83,7 @@ class AudioNodeTest(BaseTest):
             if test!="__pycache__" and test!="base_test.py" and test!="audio_node_test.py" and test!=".gitignore" and test!=".git":
                 if not os.path.isfile(os.path.join(TEST_PATH,test)):
                     self.__test_case(test)
-                    self._test()
-                    self._cleanup()
+                    
         print("TEST FINISHED")
         print("Type CTRL+C to exit")
         while not rospy.is_shutdown():

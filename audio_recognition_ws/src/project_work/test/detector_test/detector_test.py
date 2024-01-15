@@ -52,7 +52,8 @@ class DetectorTest(BaseTest):
             msg = ros_numpy.msgify(Image, img, encoding = "bgr8")
             self._publisher.publish(msg)
             rate.sleep()
-
+        self._test()
+        self._cleanup()
         
     def start(self):
         rospy.init_node('detector_test', anonymous=True)
@@ -65,8 +66,7 @@ class DetectorTest(BaseTest):
             if (test!="__pycache__" and test!="detector_test.py"):
                 if not os.path.isfile(os.path.join(TEST_PATH,test)):
                     self.__test_case(test)
-                    self._test()
-                    self._cleanup()
+                    
         print("TEST FINISHED")
         print("Type CTRL+C to exit")
         while not rospy.is_shutdown():
