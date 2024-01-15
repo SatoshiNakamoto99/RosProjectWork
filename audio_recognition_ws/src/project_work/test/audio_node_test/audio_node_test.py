@@ -84,7 +84,10 @@ class AudioNodeTest(BaseTest):
                     self.__test_case(test)
                     self._test()
                     self._cleanup()
-    
+        print("TEST FINISHED")
+        print("Type CTRL+C to exit")
+        while not rospy.is_shutdown():
+            pass
 if __name__ == "__main__":
     try:
         d = AudioNodeTest()

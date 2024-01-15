@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 import os
+from base_test import BaseTest
+
 import rospy 
 from std_msgs.msg import Bool
 from sensor_msgs.msg import Image
@@ -10,7 +12,7 @@ import cv2
 VIDEO_TOPIC = '/in_rgb'
 HUMAN_PRESENCE_TOPIC = '/track/human_presence'
 TEST_PATH = os.path.dirname(os.path.abspath(__file__))
-from base_test import BaseTest
+
 
 class DetectorTest(BaseTest):
     """
@@ -65,11 +67,16 @@ class DetectorTest(BaseTest):
             if (test!="__pycache__" and test!="detector_test.py"):
                 if not os.path.isfile(os.path.join(TEST_PATH,test)):
                     self.__test_case(test)
+        print("TEST FINISHED")
+        print("Type CTRL+C to exit")
+        while not rospy.is_shutdown():
+            pass
 
 if __name__ == "__main__":
     try:
         d = DetectorTest()
         d.start()
+        
     except rospy.ROSInterruptException:
         pass
 
