@@ -80,8 +80,6 @@ import numpy as np
 import rospy
 import speech_recognition as sr
 from std_msgs.msg import Int16MultiArray, Bool
-from threading import Lock
-from project_work.srv import StartListening, StartListeningResponse
 
 class AudioNode(object):
     def __init__(self,row_audio_topic,  verbose=True) -> None:
