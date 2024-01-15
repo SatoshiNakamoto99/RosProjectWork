@@ -3,5 +3,4 @@ devel
 build
 .catkin_tools
 .vscode
-test
 optimized_v2_ws

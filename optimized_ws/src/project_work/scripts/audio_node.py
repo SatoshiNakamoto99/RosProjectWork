@@ -83,7 +83,7 @@ from std_msgs.msg import Int16MultiArray, Bool
 
 class AudioNode(object):
     def __init__(self,row_audio_topic,  verbose=True) -> None:
-       
+        
         self._r = sr.Recognizer()
         self._m = sr.Microphone(device_index=MICROPHONE_INDEX, sample_rate=RATE, chunk_size=CHUNK_SIZE)
         self._audio_topic = row_audio_topic
@@ -158,7 +158,6 @@ class AudioNode(object):
                 if self._verbose:
                     print("[AUDIO NODE] Timeout")
                 data_to_send.data = b'\x00 \x00'
-            
             return data_to_send
   
     def _handle_presence(self, presence):

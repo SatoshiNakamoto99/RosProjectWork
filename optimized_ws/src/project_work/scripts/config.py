@@ -13,6 +13,11 @@ CHATBOT_RUNNING = False
 # -- 1024 is good for the pepper microphone
 CHUNK_SIZE = 1024
 
+# Flag: if True, the test mode will be activated.
+TEST_LISTEN_PEPPER = False
+
+TEST_INTERACTION = False
+
 # This parameter is the minimum confidence to the detection.
 FACE_MIN_DETECTION_CONFIDENCE = 0.5
 
@@ -35,7 +40,7 @@ ON_PEPPER = False
 
 # If true, the raw audio will be saved in a folder. We used that to made test at home.
 # -- In the use must be False (to improve the fastness).
-SAVE_RAW_AUDIO = False
+SAVE_RAW_AUDIO = True
 
 # If true, all the frame from the camera will be saved to make test at home.
 # -- In the use must be False (to improve the fastness).
@@ -67,3 +72,4 @@ VIDEO_FPS = 10
 
 # Topin on which will be published the image received by the Pepper camera
 VIDEO_TOPIC = '/in_rgb'
+

@@ -11,14 +11,14 @@ if __name__ == '__main__':
         rospy.init_node('Start Node', anonymous=True)
         rospy.on_shutdown(caller._handle_shutdown)
         if _verbose:
-            print('[Manager Node] Pepper wakeup')
+            print('[Starter Node] Pepper wakeup')
         caller._service_call('wakeup', WakeUp)
 
         if _verbose:
-            print('[Manager Node] Pepper startfollowing')
+            print('[Starter Node] Pepper startfollowing')
         caller._service_call('startFollowing', StartFollowing)
         
     if _verbose:
-        print('[Manager Node] Starting done.')
+        print('[Starter Node] Starting done.')
               
     

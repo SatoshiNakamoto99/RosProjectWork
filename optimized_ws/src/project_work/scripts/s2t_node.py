@@ -1,9 +1,12 @@
 #!/usr/bin/python3
+
+from datetime import datetime
+import numpy as np
 from config import *
 import rospy
 from base_node import BaseNode
 from std_msgs.msg import String , Int16MultiArray
-from threading import Lock
+from scipy.io.wavfile import write
 from project_work.srv import Speech2Text
 
 class s2t_node(BaseNode):
@@ -43,6 +46,12 @@ class s2t_node(BaseNode):
         self._set_audio_data(audio)
         if self._verbose:
             print('[Speech2text] Audio detected: {}'.format(self._get_audio_presence()))
+        if SAVE_RAW_AUDIO:
+            audio_data = np.array(audio.data).astype(np.float32, order='C') / 32768.0  # to float32
+            if not os.path.exists(os.path.join(REF_PATH, 'saved_audio')):
+                os.mkdir(os.path.join(REF_PATH, 'saved_audio'))
+            write(os.path.join(REF_PATH, 'saved_audio', f'{datetime.now().strftime("%m-%d-%Y-%H-%M-%S")}.wav'), RATE, audio_data)
+        
           
     def start(self, audio_topic, rate_value=10):
         # Init the node
