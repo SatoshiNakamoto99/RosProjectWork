@@ -36,7 +36,7 @@ class FollowNode:
                 rospy.sleep(1.0)  # Waiting for 1 second
                 self._reset = True
             else:
-                if slf._reset:
+                if self._reset:
                     self.reset_head_position()
                     self._reset = False
         
