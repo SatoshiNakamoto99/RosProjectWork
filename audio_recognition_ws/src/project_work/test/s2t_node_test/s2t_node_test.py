@@ -10,6 +10,8 @@ TEST_PATH = os.path.dirname(os.path.abspath(__file__))
 
 class Speech2TextNodeTest(object):
     def __init__(self):
+        """
+        Initializes the Speech-to-Text (S2T) node testing module."""
         self._output = None
         self._groundtruth = None
         self._pub_user_audio = rospy.Publisher(USER_AUDIO_TOPIC, Int16MultiArray, queue_size=0)      
@@ -73,6 +75,15 @@ class Speech2TextNodeTest(object):
         return self._groundtruth
 
     def __get_audio(self,audio_path):
+        """
+        Load audio data from the specified directory.
+
+        Args:
+            audio_path (String): The path to the directory containing audio files.
+
+        Returns:
+            np.ndarray: Numpy array containing audio data.
+        """
         #Controlla se la cartella è vuota
         if not os.path.exists(audio_path) or not os.listdir(audio_path):
             print(f"La cartella {audio_path} è vuota. Nessun file audio trovato.")
@@ -97,6 +108,12 @@ class Speech2TextNodeTest(object):
             return None
 
     def _test_case(self, test_case_folder):
+        """
+        Execute a test case based on data stored in the specified folder.
+
+        Args:
+            test_case_folder (String): Folder where test data is stored.
+        """
         print(test_case_folder.upper()+":",end="\t")
         test_case_path = os.path.join(TEST_PATH,test_case_folder)
         # get groundtruth
@@ -117,10 +134,20 @@ class Speech2TextNodeTest(object):
         self._cleanup()     
 
     def __response_s2t(self,text):
+        """
+        Callback function for the USER_INPUT_TOPIC.
+
+        Args:
+            text (std_msgs/String): The text message converted from speech by the S2T node.
+        """
         #se sono in questa callback allora il nodo s2t_node ha pubblicato su USER_INPUT_TOPIC
         self._set_output(True)
 
     def start(self):
+        """
+        Start the testing process. Initialize the ROS node, subscribe to the S2T node output topic,
+        publish user audio messages, and wait for the ROS node to terminate.
+        """
         rospy.init_node('speech2text_node_test', anonymous=True)
         rospy.Subscriber(USER_INPUT_TOPIC, String,self.__response_s2t)
    

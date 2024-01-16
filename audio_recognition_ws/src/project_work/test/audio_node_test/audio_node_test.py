@@ -12,6 +12,9 @@ from playsound import playsound
 
 class AudioNodeTest(object):
     def __init__(self):
+        """
+        Initializes the AudioNodeTest class.
+        """
         self._output = None
         self._groundtruth = None
         self._pub_pepper_talk = rospy.Publisher(PEPPER_TALK_TOPIC, Bool, queue_size=0)      
@@ -79,6 +82,12 @@ class AudioNodeTest(object):
         return self._groundtruth
 
     def __read_config(self, file_path):
+        """
+        Read configuration settings from a JSON file.
+
+        Args:
+            file_path (String): Path to the configuration JSON file.
+        """
         try:
             with open(file_path, 'r') as json_file:
                 data = json.load(json_file)
@@ -90,6 +99,13 @@ class AudioNodeTest(object):
 
 
     def _test_case(self,test_case_folder):
+        """
+        Execute a test case, including publishing values on ROS topics, generating temporary audio,
+        and testing the audio node output.
+
+        Args:
+            test_case_folder (String): Name of the test case folder.
+        """
         print(test_case_folder.upper()+":",end="\t")
         test_case_path = os.path.join(TEST_PATH,test_case_folder)
         # get groundtruth
@@ -118,9 +134,19 @@ class AudioNodeTest(object):
 
 
     def _audio_user(self, audio):
+        """
+        Callback method for handling audio-related events.
+
+        Args:
+            audio (Int16MultiArray): Audio data received from the audio node.
+        """
         self._set_output(True)
 
     def start(self):
+        """
+        Start the testing process. Initializes the ROS node, subscribes to audio topic, 
+        iterates through test cases, and waits for the ROS node to shutdown.
+        """
         rospy.init_node('audio_node_test', anonymous=True)
         rospy.Subscriber(USER_AUDIO_TOPIC, Int16MultiArray,self._audio_user)
     

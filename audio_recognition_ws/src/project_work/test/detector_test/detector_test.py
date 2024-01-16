@@ -19,7 +19,10 @@ class DetectorTest:
     """
 
     def __init__(self):
-        super().__init__()
+        """
+        Initializes the detection module testing node.
+        """
+        #super().__init__()
         self._publisher = None
         self._output = list()
         self._groundtruth = None
@@ -101,6 +104,10 @@ class DetectorTest:
         self._cleanup()
         
     def start(self):
+        """
+        Starts the testing process. Initializes the ROS node, subscribes to the human detection topic,
+        publishes images to the topic, and waits for the ROS node to terminate.
+        """
         rospy.init_node('detector_test', anonymous=True)
         rospy.Subscriber(HUMAN_PRESENCE_TOPIC, Bool, self.__human_presence)
         self._publisher = rospy.Publisher(VIDEO_TOPIC, Image, queue_size = 10)

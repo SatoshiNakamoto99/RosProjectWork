@@ -12,6 +12,8 @@ TEST_PATH = os.path.dirname(os.path.abspath(__file__))
 
 class DialogueNodeTest(object):
     def __init__(self):
+        """
+        Initializes the dialogue node testing module. """
         self._output = None
         self._groundtruth = None
         self._pub_user_input = rospy.Publisher(USER_INPUT_TOPIC, String, queue_size=0)
@@ -76,6 +78,12 @@ class DialogueNodeTest(object):
         return self._groundtruth
 
     def __read_config(self, file_path):
+        """
+        Read configuration values from a JSON file.
+
+        Args:
+            file_path (String): Path to the JSON configuration file.
+        """
         try:
             with open(file_path, 'r') as json_file:
                 data = json.load(json_file)
@@ -85,6 +93,12 @@ class DialogueNodeTest(object):
             print(f"File '{file_path}' non trovato. Impostazione di valori predefiniti.")
 
     def __test_case(self, test_case_folder):
+        """
+        Execute a test case based on data stored in the specified folder.
+
+        Args:
+            test_case_folder (String): Folder where test data is stored.
+        """
         print(test_case_folder.upper()+":",end="\t")
         test_case_path = os.path.join(TEST_PATH,test_case_folder)
         # get groundtruth
@@ -106,10 +120,20 @@ class DialogueNodeTest(object):
 
 
     def __response_by_chatbot(self, response):
+        """
+        Callback function for the CHATBOT_OUTPUT_TOPIC.
+
+        Args:
+            response (std_msgs/String): The response message from the chatbot.
+        """
         self._set_output(True) #se è true allora dialogue_node ha pubblicato qualcosa in CHATBOT_OUTPUT_TOPIC
 
 
     def start(self):
+        """
+        Start the testing process. Initialize the ROS node, subscribe to the chatbot output topic,
+        publish user input messages, and wait for the ROS node to terminate.
+        """
         rospy.init_node('dialogue_node_test', anonymous=True)
         rospy.Subscriber(CHATBOT_OUTPUT_TOPIC, String,self.__response_by_chatbot)
    
