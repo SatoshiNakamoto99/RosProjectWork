@@ -15,6 +15,7 @@ class EngagementNodeTest(object):
         self._pub_human_presence = rospy.Publisher(HUMAN_PRESENCE_TOPIC, Bool, queue_size=0)
         self._HUMAN_PRESENCE = False
         self._set_output(False)
+        self._user_go_out=False
 
     def _setup(self,test_case_path):
         """
@@ -24,6 +25,8 @@ class EngagementNodeTest(object):
         """
         with open(os.path.join(test_case_path,"groundtruth.txt"),"r") as f:
             g = f.read()
+        if g=="User go out":
+            self._groundtruth="User go out"
         if g=="False":
             self._groundtruth=False
         if g=="":
@@ -76,6 +79,7 @@ class EngagementNodeTest(object):
                 data = json.load(json_file)
                 # Imposta le variabili in base ai valori nel file JSON
                 self._HUMAN_PRESENCE = data.get("TEST_HUMAN_PRESENCE", False)
+                self._USER_GO_OUT_FLAG=data.get("TEST_USER_GO_OUT", False)
         except FileNotFoundError:
             print(f"File '{file_path}' non trovato. Impostazione di valori predefiniti.")
 
@@ -89,10 +93,15 @@ class EngagementNodeTest(object):
         text_path = test_case_path
         self.__read_config(os.path.join(text_path, "config_test.json"))
         #pubblico sul topic, il nodo di engagement_node leggerà questi valori
-        if self._HUMAN_PRESENCE:
+        if self._USER_GO_OUT_FLAG:
             self._pub_human_presence.publish(Bool(True))
-        else:
             self._pub_human_presence.publish(Bool(False))
+            #in questo modo in engagement_node ho che self._reset = True
+        else:
+            if self._HUMAN_PRESENCE:
+                self._pub_human_presence.publish(Bool(True))
+            else:
+                self._pub_human_presence.publish(Bool(False))
 
         #dopo aver pubblicato il nodo di engagement può valutare se fare o meno l'engagment
         #Se lo fa pubblica su CHATBOT_OUTPUT_TOPIC e quindi il nodo di engagement_node_test andrà
@@ -101,6 +110,12 @@ class EngagementNodeTest(object):
         #confronto tra output che ho ottenuto (cioè se ci sta la stringa di interesse in CHATBOT_OUTPUT_TOPIC) e la gt
         time.sleep(2) #do il tempo a engagement_node di pubblicare su CHATBOT_OUTPUT_TOPIC
         #In questo modo il nodo di engagement_node_test può aggiornare il valore di "output" e lo posso confrontare con gt
+        
+        if(self._user_go_out==True):
+            #se sono qui allora l'utente è uscito dalla scena
+            self._set_output("User go out")
+        print(self._get_output())
+        
         self._test()
         self._cleanup()     
 
@@ -108,10 +123,17 @@ class EngagementNodeTest(object):
         if (response.data == "Hello, I am Pepper, your personal assistant in the Shopping Mall"):
             self._set_output(True) #se è true allora ho fatto l'engagement
 
+    def __user_input(self, text):
+        if(text.data=="goodbye"):
+            self._user_go_out=True
+
+
     def start(self):
         rospy.init_node('engagement_node_test', anonymous=True)
         rospy.Subscriber(CHATBOT_OUTPUT_TOPIC, String,self.__response_by_chatbot)
-   
+        rospy.Subscriber(USER_INPUT_TOPIC, String,self.__user_input)
+        
+
         test_cases = os.listdir(TEST_PATH)
         test_cases.sort()
         
