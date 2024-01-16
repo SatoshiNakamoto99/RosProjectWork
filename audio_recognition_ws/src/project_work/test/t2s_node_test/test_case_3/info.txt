@@ -1,0 +1,4 @@
+test case2: 
+In questo non ci sta una persona davanti a pepper, ho una risposta dal chatbot 
+(allora ho qualcosa in CHATBOT_OUTPUT_TOPIC) allora Pepper deve parlare. 
+Il nodo di t2s scrive True e poi False su PEPPER_TALK_TOPIC

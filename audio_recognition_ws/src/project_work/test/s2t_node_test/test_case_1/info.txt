@@ -1,0 +1,2 @@
+test_case_1: se non ho nessun audio in USER_AUDIO_TOPIC allora non 
+devo pubblicare nulla su USER_INPUT_TOPIC (false)

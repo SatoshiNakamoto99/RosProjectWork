@@ -1,0 +1,5 @@
+<launch>
+    <arg name="node_start_delay" default="2.0" /> 
+    <node pkg="project_work" type="t2s_node.py" name="Text2Speech" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
+    <node pkg="project_work" type="t2s_node_test.py" name="text2speech_test" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>  
+</launch>

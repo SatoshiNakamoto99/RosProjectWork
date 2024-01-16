@@ -1,0 +1,5 @@
+test case1: se non ci sta nessuno allora Pepper non deve parlare. 
+In questo non ci sta nessuno davanti a pepper, ho una risposta dal chatbot 
+(allora ho qualcosa in CHATBOT_OUTPUT_TOPIC) ma il nodo di t2s non scrive
+nulla su PEPPER_TALK_TOPIC (allora nella gt ho False)
+In gt ho true se su PEPPER_TALK_TOPIC ho pubblicato true e poi false (cioè se pepper ha parlato)
