@@ -32,6 +32,9 @@ class EngagementNodeTest(BaseTest):
         test_case_path = os.path.join(TEST_PATH,test_case_folder)
         # get groundtruth
         self._setup(test_case_path)
+        
+        print("Groundtruth: {}".format(self._get_groundtruth()))
+        print("Init Output: {}".format(self._get_output()))
 
         text_path = test_case_path
         self.__read_config(os.path.join(text_path, "config_test.json"))
@@ -47,6 +50,7 @@ class EngagementNodeTest(BaseTest):
         #confronto tra output che ho ottenuto (cioè se ci sta la stringa di interesse in CHATBOT_OUTPUT_TOPIC) e la gt
         time.sleep(2) #do il tempo a engagement_node di pubblicare su CHATBOT_OUTPUT_TOPIC
         #così questo nodo mette il valore in output e lo posso confrontare con gt
+        print(" Output: {}".format(self._get_output()))
         self._test()
         self._cleanup()
 

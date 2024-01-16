@@ -64,9 +64,9 @@ class DialogueNode(BaseNode):
             text = self._get_input_text()
             if (text == '' or text == 'ERR1' or text == 'ERR2'):
                 if self._verbose:
-                    print(f'[Dialogue Node]  Does not unterstood, text={text}.')
+                    #print(f'[Dialogue Node]  Does not unterstood, text={text}.')
                 #response_by_chatbot = 'I did not understand, can you repeat please?' 
-                continue
+                    continue
             else:
                 response_by_chatbot = self._chatbot_interaction(text)
             self._pub.publish(response_by_chatbot)

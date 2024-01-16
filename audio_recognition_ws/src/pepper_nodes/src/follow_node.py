@@ -11,8 +11,8 @@ class FollowNode:
 
     def follow_person(self):
         # Set up tracker parameters
-        target_name = "People"
-        diameter = 0.4  # Diameter of the person to track
+        target_name = "Face"
+        diameter = 0.1  # Diameter of the person to track
         self.tracker_service.registerTarget(target_name, diameter)
 
         # Set tracker mode to "Head" for head tracking
@@ -24,17 +24,25 @@ class FollowNode:
 
         # Start tracking
         self.tracker_service.track(target_name)
+        
+        # if the person is not detected, the robot will rotate on itself
 
         # Initialize rospy node
         rospy.init_node("follow_person_node")
+        while not rospy.is_shutdown():
+            if not self.tracker_service.isTargetLost():
+                rospy.sleep(1.0)  # Waiting for 1 second
+            else:
+                self.reset_head_position()
         
-        try:
-            rospy.spin()
-        except rospy.ROSInterruptException:
-            pass
+        # try:
+        #     rospy.spin()
+        # except rospy.ROSInterruptException:
+        #     pass
 
     def stop_following(self):
         # Stop the tracker when done
+        self.reset_head_position()
         self.tracker_service.stopTracker()
         self.tracker_service.unregisterAllTargets()
         self.motion_service.setStiffnesses("Head", 0.0)  # Disable head movement

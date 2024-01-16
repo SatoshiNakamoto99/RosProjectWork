@@ -135,6 +135,8 @@ class AudioNode(object):
         self._set_pepper_talk(pepper_talk.data)
         if self._get_start_listen() and self._get_pepper_talk():
             self._set_pepper_talk_during_listening(Bool(True))
+        if self._verbose:
+            print("[AUDIO NODE] Pepper Topic: {}".format(self._get_pepper_talk()))
               
     def _start_listening(self):
         

@@ -88,6 +88,7 @@ class t2s_node(BaseNode):
             #se sono qui allora ci sta una persona avanti e ho la risposta del chatbot
             text=self._get_chatbot_output() #risposta del chatbot
             self._pub.publish(True)
+            
             self._set_chatbot_output_presence(False)
             self._t2s(text)
             self._pub.publish(False)
