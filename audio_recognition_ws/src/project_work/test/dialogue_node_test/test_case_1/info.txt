@@ -1,0 +1,2 @@
+test case1: in USER_INPUT_TOPIC ho qualcosa di significativo (diverso da ERR1 e ERR2) allora mi aspetto che
+ci sia la risposta del chatbot, cioè mi aspetto qualcosa nel topic CHATBOT_OUTPUT_TOPIC (true)

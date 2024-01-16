@@ -1,0 +1,2 @@
+test case2: in USER_INPUT_TOPIC ho qualcosa di NON significativo (come ERR1 e ERR2 o una stringa vuota) allora non mi aspetto 
+nessuna risposta del chatbot

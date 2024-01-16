@@ -1,19 +1,21 @@
 #!/usr/bin/python3
 import os
 import json
-TEST_PATH = os.path.dirname(os.path.abspath(__file__))
 #from base_test import BaseTest
+from std_msgs.msg import String
 from config import *
-from std_msgs.msg import String, Bool
 import rospy
 import time
 
-class EngagementNodeTest(object):
+TEST_PATH = os.path.dirname(os.path.abspath(__file__))
+
+
+class DialogueNodeTest(object):
     def __init__(self):
         self._output = None
         self._groundtruth = None
-        self._pub_human_presence = rospy.Publisher(HUMAN_PRESENCE_TOPIC, Bool, queue_size=0)
-        self._HUMAN_PRESENCE = False
+        self._pub_user_input = rospy.Publisher(USER_INPUT_TOPIC, String, queue_size=0)
+        self.INPUT_FROM_USER=""
         self._set_output(False)
 
     def _setup(self,test_case_path):
@@ -38,12 +40,11 @@ class EngagementNodeTest(object):
         """
         self._groundtruth = None
         self._output = None
-
+    
     def _test(self):
         """
         Test the correctness of the detector output
         """
-        # check if the sequece 
         if self._get_groundtruth()=="Groundtruth empty":
             print("Groundtruth empty")
         else:
@@ -51,7 +52,7 @@ class EngagementNodeTest(object):
                 print("Passed")
             else:
                 print("Failed")
-     
+        
     def _get_output(self):
         """
         Return detector output
@@ -69,13 +70,13 @@ class EngagementNodeTest(object):
         Return groundtruth
         """
         return self._groundtruth
-    
+
     def __read_config(self, file_path):
         try:
             with open(file_path, 'r') as json_file:
                 data = json.load(json_file)
                 # Imposta le variabili in base ai valori nel file JSON
-                self._HUMAN_PRESENCE = data.get("TEST_HUMAN_PRESENCE", False)
+                self.INPUT_FROM_USER = data.get("TEST_INPUT_FROM_USER", False)
         except FileNotFoundError:
             print(f"File '{file_path}' non trovato. Impostazione di valori predefiniti.")
 
@@ -87,45 +88,46 @@ class EngagementNodeTest(object):
 
         text_path = test_case_path
         self.__read_config(os.path.join(text_path, "config_test.json"))
-        #pubblico sul topic, il nodo di engagement_node leggerà questi valori
-        if self._HUMAN_PRESENCE:
-            self._pub_human_presence.publish(Bool(True))
-        else:
-            self._pub_human_presence.publish(Bool(False))
+        #pubblico su USER_INPUT_TOPIC il contenuto di config_test.json
+        print("#############__test_case ")
+        self._pub_user_input.publish(String(self.INPUT_FROM_USER))#dopo aver pubblicato
+        #su questo topic il nodo dialogue_node farà la callback _handle_input_text
+        #Se quello che pubblico è diverso da err1 e err2 o "" allora il dialogue_node publica su CHATBOT_OUTPUT_TOPIC
 
-        #dopo aver pubblicato il nodo di engagement può valutare se fare o meno l'engagment
-        #Se lo fa pubblica su CHATBOT_OUTPUT_TOPIC e quindi il nodo di engagement_node_test andrà
-        #ad eseguire __response_by_chatbot
-
-        #confronto tra output che ho ottenuto (cioè se ci sta la stringa di interesse in CHATBOT_OUTPUT_TOPIC) e la gt
-        time.sleep(2) #do il tempo a engagement_node di pubblicare su CHATBOT_OUTPUT_TOPIC
-        #In questo modo il nodo di engagement_node_test può aggiornare il valore di "output" e lo posso confrontare con gt
+        time.sleep(5)#In questo modo il dialogue_node ha tempo di pubblicare su CHATBOT_OUTPUT_TOPIC,
+        #di conseguenza questo nodo aggiorna il valore di output per poterlo poi confrontare con gt.
+        if(self._get_output()==None):
+            self._set_output(False)#se sono qui allora il nodo dialogue_node non ha pubblicato su CHATBOT_OUTPUT_TOPIC
         self._test()
-        self._cleanup()     
+        self._cleanup()
+
 
     def __response_by_chatbot(self, response):
-        if (response.data == "Hello, I am Pepper, your personal assistant in the Shopping Mall"):
-            self._set_output(True) #se è true allora ho fatto l'engagement
+        print("#################__response_by_chatbot")
+        self._set_output(True) #se è true allora dialogue_node ha pubblicato qualcosa in CHATBOT_OUTPUT_TOPIC
+
 
     def start(self):
-        rospy.init_node('engagement_node_test', anonymous=True)
+        rospy.init_node('dialogue_node_test', anonymous=True)
         rospy.Subscriber(CHATBOT_OUTPUT_TOPIC, String,self.__response_by_chatbot)
    
         test_cases = os.listdir(TEST_PATH)
         test_cases.sort()
         
         for test in test_cases:
-            if test!="__pycache__" and test!="base_test.py" and test!="engagement_node_test.py":
+            if test!="__pycache__" and test!="base_test.py" and test!="dialogue_node_test.py":
                 if not os.path.isfile(os.path.join(TEST_PATH,test)):
                     self.__test_case(test)
         print("TEST FINISHED")
         print("Type CTRL+C to exit")
         while not rospy.is_shutdown():
             pass
-                    
+        
+        
+
 if __name__ == "__main__":
     try:
-        d = EngagementNodeTest()
+        d = DialogueNodeTest()
         d.start()
     except rospy.ROSInterruptException:
         pass
