@@ -6,7 +6,7 @@ from std_msgs.msg import  Bool, String
 
 
 class Engagement_Node(BaseNode):
-    def __init__(self, name_node, output_topic, verbose):
+    def __init__(self, name_node, output_topic, reset_topic, verbose):
         super().__init__()
         self._name_node = name_node
         self._verbose = verbose
@@ -15,75 +15,56 @@ class Engagement_Node(BaseNode):
         self._engagement = False
         self._output_topic = output_topic
         self._pub = rospy.Publisher(self._output_topic, String, queue_size=0)
+        self._reset_topic = reset_topic
+        self._pub_reset = rospy.Publisher(self._reset_topic, String, queue_size=0)
+        self._reset = False
     
-    def _get_human_presence(self):
-        human_presence = self._human_presence
-        return human_presence
-    
-    def _set_human_presence(self, human_presence):
-        self._human_presence = human_presence
-        
-    def _get_previus_human_presence(self):
-        previus_human_presence = self._previus_human_presence
-        return previus_human_presence
-    
-    def _set_previus_human_presence(self, previus_human_presence):
-        self._previus_human_presence = previus_human_presence
-    
-    def _get_engagement(self):
-        engagement = self._engagement
-        return engagement
-    
-    def _set_engagement(self, engagement):
-        self._engagement = engagement
-        
+       
     def _handle_transition_state(self, presence):
         
-        self._set_previus_human_presence(self._get_human_presence())
-        self._set_human_presence(presence.data)
-        #
-        #0. ________________________________________________________
-        # Individuate the transition state from S0 to S1
-        if not self._get_previus_human_presence() and self._get_human_presence():
-            self._set_engagement(True)
+        self._previus_human_presence = self._human_presence
+        self._human_presence = presence.data
         
-        #1. ________________________________________________________
-        if self._human_presence:
-            #
-            #1.1 ________________________________________________________
-            # State S1
-            if self._verbose:
-                print('[Engagement]  Human presence is detected')
-        else:
-            #
-            #1.2 ________________________________________________________
-            # State S0
-            if self._verbose:
-                print('[Engagement]  Human presence is not detected')
-            #self._set_engagement(False)
+        if not self._previus_human_presence and self._human_presence:
+            self._engagement = True
+            self._reset = False
+        
+        if  self._previus_human_presence and not self._human_presence:
+            self._reset = True
+        
+        if self._verbose:
+            if self._human_presence:
+                # State S1
+                    print('[Engagement]  Human presence is detected')
+            else:
+                # State S0
+                    print('[Engagement]  Human presence is not detected')
+                    
     
     def start(self, rate_value=10):
         rospy.init_node(self._name_node, anonymous=True)
         rospy.Subscriber(HUMAN_PRESENCE_TOPIC, Bool, self._handle_transition_state)
-        
-        
         rospy.on_shutdown(self._handle_shutdown)
         rate = rospy.Rate(rate_value)
         while not rospy.is_shutdown():
             rate.sleep()
-            if not self._get_engagement():
+            
+            if not self._engagement:
+                if self._reset:
+                    self._pub_reset.publish("goodbye")
+                self._reset = False
                 continue
-            #self._set_engagement(False)
+            
             if self._verbose:
                 print('[Engagement]  Engagement is detected')
-            # Publish the engagement string
+            
             self._pub.publish("Hello, I am Pepper, your personal assistant in the Shopping Mall")    
             
-            self._set_engagement(False)
+            self._engagement = False
 
 if __name__ == '__main__':
     try:
-        node = Engagement_Node('engagement_node', CHATBOT_OUTPUT_TOPIC ,verbose=True)
+        node = Engagement_Node('engagement_node', CHATBOT_OUTPUT_TOPIC,USER_INPUT_TOPIC ,verbose=True)
         node.start()
     except rospy.ROSInterruptException:
         pass

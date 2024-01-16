@@ -8,12 +8,14 @@ class FollowNode:
         self.session = Session(ip, port)
         self.tracker_service = self.session.get_service("ALTracker")
         self.motion_service = self.session.get_service("ALMotion")
+        self.reset_head_position()
+        self._reset = False
 
     def follow_person(self):
         # Set up tracker parameters
         target_name = "Face"
-        diameter = 0.1  # Diameter of the person to track
-        self.tracker_service.registerTarget(target_name, diameter)
+        faceSize = 0.6  # Diameter of the person to track
+        self.tracker_service.registerTarget(target_name, faceSize)
 
         # Set tracker mode to "Head" for head tracking
         mode = "Head"
@@ -32,8 +34,11 @@ class FollowNode:
         while not rospy.is_shutdown():
             if not self.tracker_service.isTargetLost():
                 rospy.sleep(1.0)  # Waiting for 1 second
+                self._reset = True
             else:
-                self.reset_head_position()
+                if slf._reset:
+                    self.reset_head_position()
+                    self._reset = False
         
         # try:
         #     rospy.spin()
@@ -50,7 +55,7 @@ class FollowNode:
         
     def reset_head_position(self):
         # Reset head position
-        self.motion_service.setAngles("Head", [0.0, 0.0], 0.5)
+        self.motion_service.setAngles("Head", [0.0, -0.3], 0.2)
         
 if __name__ == "__main__":
     parser = OptionParser()

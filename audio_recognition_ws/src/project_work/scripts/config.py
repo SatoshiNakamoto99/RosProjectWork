@@ -3,7 +3,7 @@ import os
 
 # The time of calibration when the audio start
 # -- 0.2 seems working with low noises scene
-CALIBRATION_TIME = 0.6 
+CALIBRATION_TIME = 0.2 
 
 # Flag: if False, the working of the chatbot will be simulated with the command line.
 # -- In the use must be True.
@@ -15,7 +15,7 @@ CHUNK_SIZE = 1024
 
 
 # This parameter is the minimum confidence to the detection.
-FACE_MIN_DETECTION_CONFIDENCE = 0.5
+FACE_MIN_DETECTION_CONFIDENCE = 0.4
 
 # The maximum number of frame with different state before changing that
 HUMAN_PRESENCE_GHOST_FRAME = 15
