@@ -13,6 +13,8 @@ TEST_PATH = os.path.dirname(os.path.abspath(__file__))
 
 class Text2SpeechNodeTest(object):
     def __init__(self):
+        """
+        Initializes the Text-to-Speech (T2S) node testing module."""
         self._output = None
         self._groundtruth = None
         self._pub_human_presence=rospy.Publisher(HUMAN_PRESENCE_TOPIC,Bool,queue_size=0)
@@ -81,6 +83,12 @@ class Text2SpeechNodeTest(object):
         return self._groundtruth
 
     def __read_config(self, file_path):
+        """
+        Read configuration values from a JSON file.
+
+        Args:
+            file_path (String): The path to the JSON configuration file.
+        """
         try:
             with open(file_path, 'r') as json_file:
                 data = json.load(json_file)
@@ -92,6 +100,12 @@ class Text2SpeechNodeTest(object):
 
 
     def _test_case(self,test_case_folder):
+        """
+        Execute a test case based on data stored in the specified folder.
+
+        Args:
+            test_case_folder (String): Folder where test data is stored.
+        """
         print(test_case_folder.upper()+":",end="\t")
         test_case_path = os.path.join(TEST_PATH,test_case_folder)
         # get groundtruth
@@ -127,10 +141,20 @@ class Text2SpeechNodeTest(object):
         self._pepper_talk_past=False
 
     def _pepper_talk(self, flag):
+        """
+        Callback function for the PEPPER_TALK_TOPIC.
+
+        Args:
+            flag (std_msgs/Bool): Flag indicating whether Pepper is talking.
+        """
         self._pepper_talk_past=self._pepper_talk_curr
         self._pepper_talk_curr=flag.data
 
     def start(self):
+        """
+        Start the testing process. Initialize the ROS node, subscribe to the T2S node topic,
+        publish flags and chatbot output messages, and wait for the ROS node to terminate.
+        """
         rospy.init_node('text2speech_node_test', anonymous=True)
         rospy.Subscriber(PEPPER_TALK_TOPIC, Bool,self._pepper_talk)
    

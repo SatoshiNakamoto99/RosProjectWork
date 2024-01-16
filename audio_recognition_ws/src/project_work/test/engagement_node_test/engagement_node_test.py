@@ -10,6 +10,9 @@ import time
 
 class EngagementNodeTest(object):
     def __init__(self):
+        """
+        Initializes the engagement node testing module.
+        """
         self._output = None
         self._groundtruth = None
         self._pub_human_presence = rospy.Publisher(HUMAN_PRESENCE_TOPIC, Bool, queue_size=0)
@@ -74,6 +77,12 @@ class EngagementNodeTest(object):
         return self._groundtruth
     
     def __read_config(self, file_path):
+        """
+        Read configuration values from a JSON file.
+
+        Args:
+            file_path (String): Path to the JSON configuration file.
+        """
         try:
             with open(file_path, 'r') as json_file:
                 data = json.load(json_file)
@@ -84,6 +93,12 @@ class EngagementNodeTest(object):
             print(f"File '{file_path}' non trovato. Impostazione di valori predefiniti.")
 
     def __test_case(self, test_case_folder):
+        """
+        Execute a test case based on data stored in the specified folder.
+
+        Args:
+            test_case_folder (String): Folder where test data is stored.
+        """
         print(test_case_folder.upper()+":",end="\t")
         test_case_path = os.path.join(TEST_PATH,test_case_folder)
         # get groundtruth
@@ -120,15 +135,31 @@ class EngagementNodeTest(object):
         self._cleanup()     
 
     def __response_by_chatbot(self, response):
+        """
+        Callback function for the CHATBOT_OUTPUT_TOPIC.
+
+        Args:
+            response (std_msgs/String): The response message from the chatbot.
+        """
+
         if (response.data == "Hello, I am Pepper, your personal assistant in the Shopping Mall"):
             self._set_output(True) #se è true allora ho fatto l'engagement
 
     def __user_input(self, text):
+        """
+        Callback function for the USER_INPUT_TOPIC
+
+        """
         if(text.data=="goodbye"):
             self._user_go_out=True
 
 
     def start(self):
+        """
+        Start the testing process. Initialize the ROS node, subscribe to the chatbot output topic,
+        publish human presence messages, publish user input messages, and wait for the ROS node to terminate.
+        """
+        
         rospy.init_node('engagement_node_test', anonymous=True)
         rospy.Subscriber(CHATBOT_OUTPUT_TOPIC, String,self.__response_by_chatbot)
         rospy.Subscriber(USER_INPUT_TOPIC, String,self.__user_input)
