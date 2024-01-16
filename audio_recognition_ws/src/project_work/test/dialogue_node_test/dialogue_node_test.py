@@ -51,6 +51,10 @@ class DialogueNodeTest(object):
             if self._output == self._groundtruth:
                 print("Passed")
             else:
+                print("gt: ")
+                print(self._get_groundtruth())
+                print("output: ")
+                print(self._get_output())
                 print("Failed")
         
     def _get_output(self):
@@ -89,7 +93,6 @@ class DialogueNodeTest(object):
         text_path = test_case_path
         self.__read_config(os.path.join(text_path, "config_test.json"))
         #pubblico su USER_INPUT_TOPIC il contenuto di config_test.json
-        print("#############__test_case ")
         self._pub_user_input.publish(String(self.INPUT_FROM_USER))#dopo aver pubblicato
         #su questo topic il nodo dialogue_node farà la callback _handle_input_text
         #Se quello che pubblico è diverso da err1 e err2 o "" allora il dialogue_node publica su CHATBOT_OUTPUT_TOPIC
@@ -103,7 +106,6 @@ class DialogueNodeTest(object):
 
 
     def __response_by_chatbot(self, response):
-        print("#################__response_by_chatbot")
         self._set_output(True) #se è true allora dialogue_node ha pubblicato qualcosa in CHATBOT_OUTPUT_TOPIC
 
 

@@ -7,7 +7,7 @@ CALIBRATION_TIME = 0.6
 
 # Flag: if False, the working of the chatbot will be simulated with the command line.
 # -- In the use must be True.
-CHATBOT_RUNNING = True
+CHATBOT_RUNNING = False
 
 # Size of the time window for the computation of the mel spectrogram
 # -- 1024 is good for the pepper microphone
