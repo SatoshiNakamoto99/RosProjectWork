@@ -1,2 +1,2 @@
 Test if the human is present but Pepper are speaking Audio Node not 
-publish the text 
+publish the audio

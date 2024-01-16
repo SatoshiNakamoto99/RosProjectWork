@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import os
-from base_test import BaseTest
 
 import rospy 
 from std_msgs.msg import Bool
@@ -14,7 +13,7 @@ HUMAN_PRESENCE_TOPIC = '/track/human_presence'
 TEST_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
-class DetectorTest(BaseTest):
+class DetectorTest:
     """
     Node implementing the test of detector module
     """
@@ -22,14 +21,60 @@ class DetectorTest(BaseTest):
     def __init__(self):
         super().__init__()
         self._publisher = None
-  
+        self._output = list()
+        self._groundtruth = None
+    
+    
+    def _setup(self,scene_path):
+        """
+        Load groundtruth from file stored in specific scene_path.
+        Args:
+            scene_path (String)
+        """
+        with open(os.path.join(scene_path,"groundtruth.txt"),"r") as f:
+            g = f.read()
+        labels = g.split(",")
+        # to manage test with only images without faces
+        if len(labels)==1 and labels[0]=="False":
+            self._groundtruth = list() 
+            return
+        self._groundtruth = [x=="True" for x in labels]
+
+    def _cleanup(self):
+        """
+        Reset groundtruth and detector output
+        """
+        self._groundtruth = None
+        self._output = list()
+        
+    
+    
+    def _test(self):
+        """
+        Test the correctness of the detector output
+        """
+        # check if the sequece 
+        #se Gt è una stringa vuota  stampa Riempi la GT 
+        if len(self._groundtruth) == 0:
+            print("Fill the groundtruth")
+            return
+        if len(self._output) == 0:
+            print("Fill the output")
+            return
+        # check if the sequence of output is the same of groundtruth
+        if self._output == self._groundtruth:
+            print("Passed")
+        else:
+            print("Failed")
+        
+   
     def __human_presence(self,is_presence):
         """
         Callback function for topic track/human_presence.
         Args:
             is_presence (std_msgs/Bool): is true if a person is detected, otherwise false.  
         """
-        self._detector_output.append(is_presence.data)
+        self._output.append(is_presence.data)
   
     def __test_case(self,test_case_folder):
         """

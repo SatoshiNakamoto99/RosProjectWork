@@ -84,6 +84,9 @@ class EngagementNodeTest(object):
         test_case_path = os.path.join(TEST_PATH,test_case_folder)
         # get groundtruth
         self._setup(test_case_path)
+        
+        print("Groundtruth: {}".format(self._get_groundtruth()))
+        print("Init Output: {}".format(self._get_output()))
 
         text_path = test_case_path
         self.__read_config(os.path.join(text_path, "config_test.json"))

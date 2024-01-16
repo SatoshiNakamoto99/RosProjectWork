@@ -13,26 +13,18 @@ class t2s_node(BaseNode):
         super().__init__()
         self._name_node=name_node
         self._verbose = verbose
-        #self._mutex_human_presence = Lock()
         self._human_presence = False
-        #self._mutex_chatbot_output_presence=Lock()
         self._chatbot_output_presence=False
         self._chatbot_output=String()
-        # self._start_listen = False
-        # self._came_out = False
         self._topic_pepper=topic_pepper
         self._pub = rospy.Publisher(self._topic_pepper, Bool, queue_size=0)
 
     def _get_human_presence(self):
-        #self._mutex_human_presence.acquire()
         presence = self._human_presence
-        #self._mutex_human_presence.release()
         return presence
     
     def _set_human_presence(self, presence):
-        #self._mutex_human_presence.acquire()
         self._human_presence = presence
-        #self._mutex_human_presence.release()
     
     def _get_chatbot_output_presence(self):
         chatbot_output_presence=self._chatbot_output_presence
@@ -52,15 +44,14 @@ class t2s_node(BaseNode):
         self._set_human_presence(presence.data)
         if self._verbose:
             print("[Text2Speech] Human presence: {}".format(self._get_human_presence()))
-        # if self._get_start_listen() and not self._get_human_presence():
-        #     self._came_out = True
+        
     def _handler_chatbot_output_presence(self, data):
         self._set_chatbot_output_presence(True)
         self._set_chatbot_output(data.data)
         if self._verbose:
             print('[Text2Speech] Text detected: {}'.format(self._get_chatbot_output_presence()))
 
-        #SISTEMAREEE
+    
     def _t2s(self, text):
         """Call Pepper text to speech or simulate that. 
 
@@ -96,15 +87,10 @@ class t2s_node(BaseNode):
                 continue
             #se sono qui allora ci sta una persona avanti e ho la risposta del chatbot
             text=self._get_chatbot_output() #risposta del chatbot
-            #self._persistence_service_close('startListening')
             self._pub.publish(True)
+            
             self._set_chatbot_output_presence(False)
-            #self._start_listen=True
             self._t2s(text)
-            # if self._came_out:
-            #     self._start_listen=False
-            #     self._came_out = False
-            #     continue
             self._pub.publish(False)
             if self._verbose:
                 print('[Text2Speech] Text to speech: ', text)
