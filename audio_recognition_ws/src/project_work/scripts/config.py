@@ -69,3 +69,4 @@ VIDEO_FPS = 10
 # Topin on which will be published the image received by the Pepper camera
 VIDEO_TOPIC = '/in_rgb'
 
+VERBOSE = False

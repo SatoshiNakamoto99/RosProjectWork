@@ -63,10 +63,10 @@ class DialogueNode(BaseNode):
                 continue
             text = self._get_input_text()
             if (text == '' or text == 'ERR1' or text == 'ERR2'):
-                if self._verbose:
+                #if self._verbose:
                     #print(f'[Dialogue Node]  Does not unterstood, text={text}.')
                 #response_by_chatbot = 'I did not understand, can you repeat please?' 
-                    continue
+                continue
             else:
                 response_by_chatbot = self._chatbot_interaction(text)
             self._pub.publish(response_by_chatbot)
@@ -76,7 +76,7 @@ class DialogueNode(BaseNode):
             
 if __name__ == '__main__':
     try:
-        node = DialogueNode('dialogue_node', CHATBOT_OUTPUT_TOPIC, verbose=True)
+        node = DialogueNode('dialogue_node', CHATBOT_OUTPUT_TOPIC, VERBOSE)
         node.start(USER_INPUT_TOPIC)
     except rospy.ROSInterruptException:
         pass  

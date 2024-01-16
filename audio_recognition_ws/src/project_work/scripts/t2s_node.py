@@ -98,7 +98,7 @@ class t2s_node(BaseNode):
             
 if __name__ == '__main__':
     try:    
-        node = t2s_node('t2s_node',PEPPER_TALK_TOPIC,verbose=True)
+        node = t2s_node('t2s_node',PEPPER_TALK_TOPIC,VERBOSE)
         node.start()
     except rospy.ROSInterruptException:
         pass
