@@ -33,7 +33,7 @@ class AudioNode(object):
         Human presence is set to True if the value is True, False otherwise.
         
         Args:
-            presence (Bool): The human presence is written on topic.
+            presence (Bool): The human presence is written on topic. It is True if human is present, False otherwise.
         """
         self._human_presence = presence.data
         if self._verbose:
@@ -48,7 +48,7 @@ class AudioNode(object):
         Pepper talk is set to True if the value is True, False otherwise.
         
         Args:
-            pepper_talk (Bool): The pepper talk is written on topic.
+            pepper_talk (Bool): The pepper talk is written on topic. It is True if pepper is talking, False otherwise.
         
         """
         
@@ -113,6 +113,9 @@ class AudioNode(object):
                     
                     Topics published to:
                         - USER_AUDIO_TOPIC
+            Args:
+                None
+                
             """
             
             rospy.init_node('audio_detected_node', anonymous=True)

@@ -23,7 +23,16 @@ class s2t_node(BaseNode):
         self._audio_data = Int16MultiArray()
       
     def _handle_audio(self, audio):
+        """
+        Callback function for the audio topic.
         
+        Sets the audio presence flag to True.
+        
+        Sets the audio data attribute to the value written on the topic.
+        
+        Args:
+            audio (Int16MultiArray): The audio data written on the topic.
+        """
         self._audio_presence = True
         self._audio_data = audio
         if self._verbose:
@@ -37,6 +46,21 @@ class s2t_node(BaseNode):
         
           
     def start(self, audio_topic, rate_value=10):
+        """
+        Initialize the node and start the execution.
+        
+        Subscribe to the audio topic.
+        
+        Call the speech to text service. If ON_PEPPER is True, then the service is called on the Pepper robot,
+        otherwise the service is called on the local machine.
+        
+        Publish the output text on the text topic.
+
+        Args:
+            audio_topic (_type_): name of the topic to subscribe to.
+            rate_value (int, optional): rate at which the node is executed. Defaults to 10.
+        """
+        
         # Init the node
         rospy.init_node(self._name_node, anonymous=True)
         self._persistence_service_init('s2t', Speech2Text)

@@ -32,6 +32,9 @@ class DialogueNode(BaseNode):
         
         Sets the input text presence flag to True.
         
+        Args:
+            input_text (String): The input text written on topic.
+        
         """
         
         self._input_text = input_text.data
@@ -47,6 +50,10 @@ class DialogueNode(BaseNode):
         
             CHATBOT_RUNNING is a flag that indicates whether the chatbot is running or not. It
             is set in the config.py file.
+        
+        Args:
+        
+            text (str): The input text to send to the chatbot.
         
         """
         

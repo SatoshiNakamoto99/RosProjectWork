@@ -12,6 +12,19 @@ vid = cv2.VideoCapture(0)
 
 
 def talker():
+    """
+    Publishes video frames from a webcam as ROS Image messages.
+
+    This function initializes a ROS node named 'talker' and creates a publisher to publish
+    video frames as ROS Image messages. It reads frames from a webcam, converts them into
+    ROS Image messages, and publishes them at a specified rate.
+
+    Args:
+        None
+
+    Returns:
+        None
+    """
     pub = rospy.Publisher(VIDEO_TOPIC, Image, queue_size=10)
     rospy.init_node('talker', anonymous=True)
 
