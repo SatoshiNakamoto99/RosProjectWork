@@ -19,38 +19,44 @@ class t2s_node(BaseNode):
         self._topic_pepper=topic_pepper
         self._pub = rospy.Publisher(self._topic_pepper, Bool, queue_size=0)
 
-    def _get_human_presence(self):
-        presence = self._human_presence
-        return presence
+    # def _get_human_presence(self):
+    #     presence = self._human_presence
+    #     return presence
     
-    def _set_human_presence(self, presence):
-        self._human_presence = presence
+    # def _set_human_presence(self, presence):
+    #     self._human_presence = presence
     
-    def _get_chatbot_output_presence(self):
-        chatbot_output_presence=self._chatbot_output_presence
-        return chatbot_output_presence
+    # def _get_chatbot_output_presence(self):
+    #     chatbot_output_presence=self._chatbot_output_presence
+    #     return chatbot_output_presence
 
-    def _set_chatbot_output_presence(self,presence):
-        self._chatbot_output_presence=presence
+    # def _set_chatbot_output_presence(self,presence):
+    #     self._chatbot_output_presence=presence
 
-    def _get_chatbot_output(self):
-        chatbot_output=self._chatbot_output
-        return chatbot_output
+    # def _get_chatbot_output(self):
+    #     chatbot_output=self._chatbot_output
+    #     return chatbot_output
     
-    def _set_chatbot_output(self,chatbot_output):
-        self._chatbot_output=chatbot_output
+    # def _set_chatbot_output(self,chatbot_output):
+    #     self._chatbot_output=chatbot_output
 
     def _handle_human_presence(self, presence):
-        self._set_human_presence(presence.data)
+        # self._set_human_presence(presence.data)
+        # if self._verbose:
+        #     print("[Text2Speech] Human presence: {}".format(self._get_human_presence()))
+        self._human_presence=presence.data
         if self._verbose:
-            print("[Text2Speech] Human presence: {}".format(self._get_human_presence()))
+            print("[T2S Node] Human presence: {}".format(self._human_presence))
         
     def _handler_chatbot_output_presence(self, data):
-        self._set_chatbot_output_presence(True)
-        self._set_chatbot_output(data.data)
+        # self._set_chatbot_output_presence(True)
+        # self._set_chatbot_output(data.data)
+        # if self._verbose:
+        #     print('[Text2Speech] Text detected: {}'.format(self._get_chatbot_output_presence()))
+        self._chatbot_output_presence=True
+        self._chatbot_output=data.data
         if self._verbose:
-            print('[Text2Speech] Text detected: {}'.format(self._get_chatbot_output_presence()))
-
+            print('[T2S Node] Text detected: {}'.format(self._chatbot_output_presence))
     
     def _t2s(self, text):
         """Call Pepper text to speech or simulate that. 
@@ -81,19 +87,23 @@ class t2s_node(BaseNode):
 
         while not rospy.is_shutdown():
             rate.sleep()
-            if not self._get_human_presence():
+            #if not self._get_human_presence():
+            if not self._human_presence:
                 continue
-            if not self._get_chatbot_output_presence():
+            #if not self._get_chatbot_output_presence():
+            if not self._chatbot_output_presence:
                 continue
             #se sono qui allora ci sta una persona avanti e ho la risposta del chatbot
-            text=self._get_chatbot_output() #risposta del chatbot
+            #text=self._get_chatbot_output() #risposta del chatbot
+            text = self._chatbot_output
             self._pub.publish(True)
             
-            self._set_chatbot_output_presence(False)
+            #self._set_chatbot_output_presence(False)
+            self._chatbot_output_presence = False
             self._t2s(text)
             self._pub.publish(False)
             if self._verbose:
-                print('[Text2Speech] Text to speech: ', text)
+                print('[T2S Node] Text to speech: ', text)
             
             
 if __name__ == '__main__':
