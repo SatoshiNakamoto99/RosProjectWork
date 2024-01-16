@@ -1,0 +1,2 @@
+test_case_2: ho un audio in USER_AUDIO_TOPIC allora 
+devo pubblicare su USER_INPUT_TOPIC (true)
