@@ -85,9 +85,7 @@ class EngagementNodeTest(object):
         # get groundtruth
         self._setup(test_case_path)
         
-        print("Groundtruth: {}".format(self._get_groundtruth()))
-        print("Init Output: {}".format(self._get_output()))
-
+        
         text_path = test_case_path
         self.__read_config(os.path.join(text_path, "config_test.json"))
         #pubblico sul topic, il nodo di engagement_node leggerà questi valori
