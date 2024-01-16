@@ -1,0 +1,3 @@
+Caso1: ho una persona davanti a pepper e pepper non parla, 
+Allora pepper deve ascoltare e pubblicare l'audio su USER_AUDIO_TOPIC.
+In questo caso ho true in gt
