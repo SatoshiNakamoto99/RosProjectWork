@@ -201,7 +201,7 @@ class AudioNode(object):
 
 if __name__ == '__main__':
     try:
-        node = AudioNode(USER_AUDIO_TOPIC)
+        node = AudioNode(USER_AUDIO_TOPIC, VERBOSE)
         node.start()
     except rospy.ROSInterruptException:
         pass

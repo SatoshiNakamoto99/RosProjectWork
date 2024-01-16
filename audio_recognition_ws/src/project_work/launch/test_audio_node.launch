@@ -6,5 +6,5 @@
     <node pkg="project_work" type="dialogue_node.py" name="dialogue_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
     <node pkg="project_work" type="engagement_node.py" name="engagement_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
     <node pkg="project_work" type="t2s_node.py" name="Text2Speech" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
-    
+    <node pkg="project_work" type="audio_node_test.py" name="audio_node_test" required="true" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
 </launch>

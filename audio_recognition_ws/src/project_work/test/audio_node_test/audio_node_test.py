@@ -73,8 +73,6 @@ class AudioNodeTest:
         test_case_path = os.path.join(TEST_PATH,test_case_folder)
         # get groundtruth
         self._setup(test_case_path)
-        #print("Groundtruth: {}".format(self._groundtruth))
-        #print("Init Output: {}".format(self._output))
         # test text
         text_path = test_case_path
         self.__read_config(os.path.join(text_path, "config_test.json"))
@@ -85,16 +83,11 @@ class AudioNodeTest:
             self._pub_human_presence.publish(False)
         
         if self._PEPPER_TALK:
-            #leggi l'output che pepper deve dire dal file txt text_data.txt
             output = self.__get_output_chatbot_from_file(text_path, "text_data.txt")
-            #pubblica su CHATBOT_OUTPUT_TOPIC
             self._pub_output_chatbot.publish(output)
-            #print("Pepper says: {}".format(output))
         
         time.sleep(5)    
         
-        #self._pub_text.publish(String(self.__get_text()))
-        print("Output: {}".format(self._output))
         
         self._test()
         self._cleanup()
