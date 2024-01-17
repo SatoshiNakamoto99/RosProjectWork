@@ -64,7 +64,7 @@ class DialogueNode(BaseNode):
             output_text = "Chatbot not running"
         return output_text
             
-    def start(self, input_topic, rate_value=2):
+    def start(self, input_topic, rate_value=1):
             """
             Starts the dialogue node.
             Initializes the node, the service and the subscriber.

@@ -31,14 +31,16 @@ class FollowNode:
 
         # Initialize rospy node
         rospy.init_node("follow_person_node")
+        rospy.on_shutdown(self.reset_head_position)
         while not rospy.is_shutdown():
             if not self.tracker_service.isTargetLost():
                 rospy.sleep(1.0)  # Waiting for 1 second
-                self._reset = True
+                
             else:
-                if self._reset:
-                    self.reset_head_position()
-                    self._reset = False
+                
+                self.reset_head_position()
+                    
+                    
         
         # try:
         #     rospy.spin()
@@ -51,11 +53,13 @@ class FollowNode:
         self.tracker_service.stopTracker()
         self.tracker_service.unregisterAllTargets()
         self.motion_service.setStiffnesses("Head", 0.0)  # Disable head movement
+        #print("Stopped tracking.")
         #self.reset_head_position()
         
     def reset_head_position(self):
         # Reset head position
         self.motion_service.setAngles("Head", [0.0, -0.3], 0.2)
+        #print("Head reset.")
         
 if __name__ == "__main__":
     parser = OptionParser()
@@ -70,4 +74,4 @@ if __name__ == "__main__":
         pass
     finally:
         follow_node.stop_following()
-
+        #pass

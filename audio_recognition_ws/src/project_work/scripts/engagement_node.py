@@ -69,7 +69,7 @@ class Engagement_Node(BaseNode):
                     print('[Engagement]  Human presence is not detected')
                     
     
-    def start(self, rate_value=10):
+    def start(self, rate_value=0.1):
             """
             Initializes the ROS node.
             

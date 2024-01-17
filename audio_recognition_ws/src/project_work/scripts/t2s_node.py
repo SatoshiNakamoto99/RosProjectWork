@@ -74,7 +74,7 @@ class t2s_node(BaseNode):
             except AssertionError:
                 pass
 
-    def start(self, rate_value=10):
+    def start(self, rate_value=1):
         """"
         Initialize the node and start the execution.
         

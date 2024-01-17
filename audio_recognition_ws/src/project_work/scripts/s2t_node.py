@@ -45,7 +45,7 @@ class s2t_node(BaseNode):
             write(os.path.join(REF_PATH, 'saved_audio', f'{datetime.now().strftime("%m-%d-%Y-%H-%M-%S")}.wav'), RATE, audio_data)
         
           
-    def start(self, audio_topic, rate_value=10):
+    def start(self, audio_topic, rate_value=1):
         """
         Initialize the node and start the execution.
         

@@ -121,7 +121,7 @@ class AudioNode(object):
             rospy.init_node('audio_detected_node', anonymous=True)
             rospy.Subscriber(HUMAN_PRESENCE_TOPIC, Bool, self._handle_presence)
             rospy.Subscriber(PEPPER_TALK_TOPIC, Bool, self._handle_pepper_talk)
-            rate = rospy.Rate(10)
+            rate = rospy.Rate(1)
 
             while not rospy.is_shutdown():
                 rate.sleep()
