@@ -126,7 +126,7 @@ class AudioNodeTest(object):
         os.remove("temp.wav")
 
 
-        time.sleep(10)#in questo modo il nodo di audio_node ha il tempo di pubblicare l'audio sul topic
+        time.sleep(2)#in questo modo il nodo di audio_node ha il tempo di pubblicare l'audio sul topic
         if (self._get_output()==None): #se è None allora non ho eseguito la callback _audio_user
             self._set_output(False)
         self._test()

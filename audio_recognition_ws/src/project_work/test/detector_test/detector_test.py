@@ -68,6 +68,10 @@ class DetectorTest:
         if self._output == self._groundtruth:
             print("Passed")
         else:
+            print("gt:")
+            print(self._groundtruth)
+            print("output: ")
+            print(self._output)
             print("Failed")
         
    
@@ -77,6 +81,7 @@ class DetectorTest:
         Args:
             is_presence (std_msgs/Bool): is true if a person is detected, otherwise false.  
         """
+        print("#####################_human_presence")
         self._output.append(is_presence.data)
   
     def __test_case(self,test_case_folder):
