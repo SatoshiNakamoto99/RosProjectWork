@@ -22,6 +22,7 @@ class AudioNode(object):
         self._human_presence  = False 
         self._pepper_talk = False 
         self._pepper_talk_during_listening = False  
+        self._lose_engage_during_listening = False
         self._start_listen = False
         
     def _handle_presence(self, presence):
@@ -36,9 +37,10 @@ class AudioNode(object):
             presence (Bool): The human presence is written on topic. It is True if human is present, False otherwise.
         """
         self._human_presence = presence.data
+        if self._start_listen and not self._human_presence:
+            self._lose_engage_during_listening = True
         if self._verbose:
             print("[AUDIO NODE] Human presence: {}".format(self._human_presence))
-        
     def _handle_pepper_talk(self, pepper_talk):
         """
         Callback function for the pepper talk topic.
@@ -132,10 +134,12 @@ class AudioNode(object):
                     continue
                 self._start_listen = True              
                 text = self._start_listening()
-                if self._pepper_talk_during_listening or not self._human_presence:
+                if self._pepper_talk_during_listening or not self._human_presence or self._lose_engage_during_listening:
                     self._pepper_talk_during_listening = False
+                    self._lose_engage_during_listening = False
                     self._start_listen = False
                     continue
+                
                 self._pub.publish(text)
         
 if __name__ == '__main__':
