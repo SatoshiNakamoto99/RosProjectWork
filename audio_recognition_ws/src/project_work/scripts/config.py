@@ -30,11 +30,11 @@ MICROPHONE_INDEX = None
 
 
 #If Model Classe is True I load the model opencv else resnet + ssd
-MODEL_CLASSE = True
+MODEL_CLASSE = False
 
 # Flag: If False, the services who need Pepper are not called. Useful for debug.
 # -- In the use must be True.
-ON_PEPPER = True
+ON_PEPPER = False
 
 # If true, the raw audio will be saved in a folder. We used that to made test at home.
 # -- In the use must be False (to improve the fastness).

@@ -101,7 +101,8 @@ class DetectorTest:
         """
         #pub_init=rospy.Publisher(HUMAN_PRESENCE_TOPIC, Bool,queue_size=0)
         #pub_init.publish(Bool(False))
-        clean_path="/home/sara/Scrivania/Audio_Recognition_Ros/audio_recognition_ws/src/project_work/test/detector_test/clear/scene"
+        #clean_path="/home/sara/Scrivania/Audio_Recognition_Ros/audio_recognition_ws/src/project_work/test/detector_test/clear/scene"
+        clean_path=os.path.dirname(os.path.abspath(__file__))+"/clear/scene"
         frames = os.listdir(clean_path)
         d=dict()
         list_temp_c=[]
