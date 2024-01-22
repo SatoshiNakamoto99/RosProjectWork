@@ -102,7 +102,7 @@ class DialogueNode(BaseService):
             # Init the node
             rospy.init_node(self._name_node, anonymous=True)
             rospy.Subscriber(input_topic, String, self._handle_input_text)
-            rospy.Subscriber(HUMAN_PRESENCE_TOPIC, Bool, self._handle_transition_state)
+            
             
             
             if CHATBOT_RUNNING:
