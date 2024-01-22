@@ -1,3 +1,4 @@
 {
-    "TEST_HUMAN_PRESENCE": true
+    "TEST_HUMAN_PRESENCE": true,
+    "TEST_USER_GO_OUT": true
   }

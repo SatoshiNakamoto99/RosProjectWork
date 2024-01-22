@@ -1,2 +1,0 @@
-TEST_USER_GO_OUT=true significa che sul topic di HUMAN_PRESENCE pubblico true e poi false, per simulare 
-l'utente che esce dalla scena
