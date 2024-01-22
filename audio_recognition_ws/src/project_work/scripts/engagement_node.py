@@ -13,7 +13,6 @@ class Engagement_Node(BaseService):
 
         Args:
             name_node (str): The name of the node.
-            output_topic (str): The topic to publish output messages.
             reset_topic (str): The topic to publish reset messages.
             verbose (bool): Flag indicating whether to enable verbose mode.
 
