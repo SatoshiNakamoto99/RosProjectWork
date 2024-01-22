@@ -1,8 +1,0 @@
-<launch>
-    <arg name="node_start_delay" default="0.0"/> 
-    <arg name="nao_ip" default="$(optenv NAO_IP 192.168.0.103)" />
-    <arg name="nao_port" default="$(optenv NAO_PORT 9559)" />
-
-    <node pkg="pepper_nodes" type="wakeup_node.py" name="wakeup_node" required="true" args="--ip=$(arg nao_ip) --port=$(arg nao_port)" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
-    
-</launch>
