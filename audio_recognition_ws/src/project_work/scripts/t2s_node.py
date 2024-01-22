@@ -84,7 +84,7 @@ class t2s_node(BaseService):
         presence flag are True.
         
         Args:
-            rate_value (int, optional): rate at which the node is executed. Defaults to 10.
+            rate_value (int, optional): rate at which the node is executed. Defaults to 1.
         """
         
         rospy.init_node(self._name_node, anonymous=True)
