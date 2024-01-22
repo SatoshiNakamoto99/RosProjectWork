@@ -112,14 +112,17 @@ class DialogueNode(BaseService):
             rate = rospy.Rate(rate_value)
             while not rospy.is_shutdown():
                 rate.sleep()
-                #
-                if not self._input_text_peresence or not self._human_presence:
-                        
-                    text = '/reset'
+                #print("CHECK ",self._human_presence)
+                #text = ''
+                if not self._input_text_peresence :
+                    
                     continue
-                
+            
                 text = self._input_text
+                #print(text) 
                 if (text == '' or text == 'ERR1' or text == 'ERR2' or text == '/reset'): 
+                    text  = 'goodbye'
+                    response_by_chatbot = self._chatbot_interaction(text)
                     continue
                 else:
                     response_by_chatbot = self._chatbot_interaction(text)

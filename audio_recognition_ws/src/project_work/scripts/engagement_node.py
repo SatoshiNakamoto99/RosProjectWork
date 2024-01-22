@@ -106,7 +106,7 @@ class Engagement_Node(BaseService):
                 if self._reset:
                     if self._verbose:
                         print('[Engagement]  Reset is detected')
-                    self._pub_reset.publish("goodbye")
+                    self._pub_reset.publish("/reset")
                     self._reset = False
                 rate.sleep()
                 

@@ -7,16 +7,16 @@ CALIBRATION_TIME = 0.2
 
 # Flag: if False, the working of the chatbot will be simulated with the command line.
 # -- In the use must be True.
-CHATBOT_RUNNING = False
+CHATBOT_RUNNING = True
 # Size of the time window for the computation of the mel spectrogram
 CHUNK_SIZE = 1024
 
 
 # This parameter is the minimum confidence to the detection.
-FACE_MIN_DETECTION_CONFIDENCE = 0.8
+FACE_MIN_DETECTION_CONFIDENCE = 0.7
 
 # The maximum number of frame with different state before changing that
-HUMAN_PRESENCE_GHOST_FRAME = 10
+HUMAN_PRESENCE_GHOST_FRAME = 8
 
 # Topic in witch a std_msgs/Bool will be published if an human is present or not. 
 HUMAN_PRESENCE_TOPIC = '/track/human_presence'

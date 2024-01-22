@@ -1,5 +1,5 @@
 <launch>
     <arg name="node_start_delay" default="2.0" /> 
-    <node pkg="project_work" type="audio_node.py" name="audio_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
+    <node pkg="project_work" type="audio_detected_node.py" name="audio_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
     <node pkg="project_work" type="audio_node_test.py" name="audio_node_test" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>  
 </launch>

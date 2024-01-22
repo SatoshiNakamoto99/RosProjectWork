@@ -210,15 +210,26 @@ class FollowNode:
         
         print("start following")
         return 'ACK Start Follow'
-        
+    
+    def stop(self):
+        try:
+            self.tracker_service.stopTracker()
+            self.tracker_service.unregisterAllTargets()
+            self.reset_head_position()
+        except:
+            pass
+    
     def stop_following(self, req):
         # Stop the tracker when done
-        self.tracker_service.stopTracker()
-        self.tracker_service.unregisterAllTargets()
-        self.reset_head_position()
-        #self.motion_service.setStiffnesses("Head", 0.0)  # Disable head movement
+        # self.tracker_service.stopTracker()
+        # self.tracker_service.unregisterAllTargets()
+        # self.reset_head_position()
+        
+        self.stop()
         print("stop following")
         return 'ACK Stop Follow'
+    
+    
         
     def reset_head_position(self):
         self.motion_service.setAngles("Head", [0.0, -0.3], 0.2)
@@ -226,7 +237,7 @@ class FollowNode:
     def start(self):
         # Espongo il Servizio start e stop
         rospy.init_node("follow_node")
-        #rospy.on_shutdown(self.reset_head_position)
+        rospy.on_shutdown(self.stop)
         rospy.Service("startFollowing", startFollowing, self.startFollow)
         rospy.Service("stopFollowing", stopFollowing, self.stop_following)
         rospy.spin()

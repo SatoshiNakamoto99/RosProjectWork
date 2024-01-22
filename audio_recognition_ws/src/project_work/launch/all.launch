@@ -10,8 +10,8 @@
 
 
     <node pkg="project_work" type="speech2text.py" name="speech2text_service" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
-    <node pkg="project_work" type="audio_node.py" name="audio_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
-    <node pkg="project_work" type="s2t_node.py" name="speech2text" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
+    <node pkg="project_work" type="audio_detected_node.py" name="audio_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
+    <node pkg="project_work" type="audio_analysis_node.py" name="audio_analysis" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
     <node pkg="project_work" type="face_detector_node.py" name="face_detector" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
     <node pkg="project_work" type="dialogue_node.py" name="dialogue_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
     <node pkg="project_work" type="engagement_node.py" name="engagement_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>

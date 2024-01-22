@@ -7,7 +7,8 @@ import rospy
 from base_service import BaseService
 from std_msgs.msg import String , Int16MultiArray
 from scipy.io.wavfile import write
-from project_work.srv import Speech2Text
+from project_work.srv import *
+from pepper_nodes.srv import *
 
 class s2t_node(BaseService):
     def __init__(self, name_node, text_topic,tts_topic, verbose=True) -> None:

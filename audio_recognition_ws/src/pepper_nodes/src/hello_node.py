@@ -14,27 +14,7 @@ class HelloNode:
         #pass
 
     def hello(self,req):
-        # Imposta il braccio destro in una posizione di saluto
-        # self.motion_service.setAngles("RShoulderPitch", -0.5, 0.2)
-        # self.motion_service.setAngles("RShoulderRoll", 0.2, 0.2)
-        # self.motion_service.setAngles("RElbowYaw", 1.5, 0.2)
-        # self.motion_service.setAngles("RElbowRoll", 1.0, 0.2)
-        # self.motion_service.setAngles("RWristYaw", 1.0, 0.2)
-
-        # # Aspetta un po' per far visualizzare il gesto di saluto
-        # time.sleep(2)
-
-        # # Ripristina la posizione iniziale del braccio destro
-        # self.motion_service.setAngles("RShoulderPitch", 0.0, 0.2)
-        # self.motion_service.setAngles("RShoulderRoll", 0.0, 0.2)
-        # self.motion_service.setAngles("RElbowYaw", 0.0, 0.2)
-        # self.motion_service.setAngles("RElbowRoll", 0.0, 0.2)
-        # self.motion_service.setAngles("RWristYaw", 0.0, 0.2)
-        #print("Gesture Hello")
         
-        # dici hello pepper e saluto 
-        #self._animated_service.say("Hello I'm Pepper")
-        # set the local configuration
         configuration = {"bodyLanguageMode": "contextual", "bodyLanguageKey": "hey_1"}
 
         # say the text with the local configuration
