@@ -7,7 +7,7 @@ from pepper_nodes.srv import Hello
 
 
 class Engagement_Node(BaseService):
-    def __init__(self, name_node, output_topic, reset_topic, verbose):
+    def __init__(self, name_node,  reset_topic, verbose):
         """
         Initializes the EngagementNode class.
 
@@ -25,8 +25,6 @@ class Engagement_Node(BaseService):
         self._verbose = verbose
         self._human_presence = False
         self._engagement = False
-        self._output_topic = output_topic
-        self._pub = rospy.Publisher(self._output_topic, String, queue_size=0)
         self._reset_topic = reset_topic
         self._pub_reset = rospy.Publisher(self._reset_topic, String, queue_size=0)
         self._reset = False
@@ -113,7 +111,7 @@ class Engagement_Node(BaseService):
 
 if __name__ == '__main__':
     try:
-        node = Engagement_Node('engagement_node', CHATBOT_OUTPUT_TOPIC,USER_INPUT_TOPIC ,verbose=True)
+        node = Engagement_Node('engagement_node', USER_INPUT_TOPIC ,verbose=True)
         node.start()
     except rospy.ROSInterruptException:
         pass
