@@ -4,19 +4,20 @@ from datetime import datetime
 import numpy as np
 from config import *
 import rospy
-from base_node import BaseNode
+from base_service import BaseService
 from std_msgs.msg import String , Int16MultiArray
 from scipy.io.wavfile import write
 from project_work.srv import Speech2Text
 
-class s2t_node(BaseNode):
-    def __init__(self, name_node, text_topic, verbose=True) -> None:
+class s2t_node(BaseService):
+    def __init__(self, name_node, text_topic,tts_topic, verbose=True) -> None:
         """Initialize a Speech to text node.
         """
         super().__init__()
         self._name_node = name_node
         self._topic = text_topic
         self._pub = rospy.Publisher(self._topic, String, queue_size=0)
+        self._pub_tts = rospy.Publisher(tts_topic, String, queue_size=0)
         self.text_data = String()
         self._verbose = verbose
         self._audio_presence = False
@@ -63,6 +64,7 @@ class s2t_node(BaseNode):
         
         # Init the node
         rospy.init_node(self._name_node, anonymous=True)
+        #rospy.wait_for_service('s2t')
         self._persistence_service_init('s2t', Speech2Text)
         rospy.on_shutdown(self._handle_shutdown)
         # Init the subscriber
@@ -77,7 +79,11 @@ class s2t_node(BaseNode):
             # Call service
             speech2textResp = self._persistence_service_call('s2t', self._audio_data)
             text = speech2textResp.output.data
-            self._pub.publish(text)
+            
+            if  text == ' ' or text == 'ERR1' or text == 'ERR2':
+                self._pub_tts.publish('Sorry, I did not understand, Can you repeat?')
+            else:
+                self._pub.publish(text)
             if self._verbose:
                 print('[S2T Node] User Input: ', text)
             
@@ -85,7 +91,7 @@ class s2t_node(BaseNode):
 
 if __name__ == '__main__':
     try:
-        node = s2t_node('speech2text_node',USER_INPUT_TOPIC)
+        node = s2t_node('speech2text_node',USER_INPUT_TOPIC, CHATBOT_OUTPUT_TOPIC)
         node.start(USER_AUDIO_TOPIC)
     except rospy.ROSInterruptException:
         pass

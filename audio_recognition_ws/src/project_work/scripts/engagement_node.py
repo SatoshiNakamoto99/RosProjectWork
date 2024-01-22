@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 from config import *
-from base_node import BaseNode
+from base_service import BaseService
 import rospy
 from std_msgs.msg import  Bool, String
+from pepper_nodes.srv import Hello
 
 
-class Engagement_Node(BaseNode):
+class Engagement_Node(BaseService):
     def __init__(self, name_node, output_topic, reset_topic, verbose):
         """
         Initializes the EngagementNode class.
@@ -23,7 +24,6 @@ class Engagement_Node(BaseNode):
         self._name_node = name_node
         self._verbose = verbose
         self._human_presence = False
-        self._previus_human_presence = False
         self._engagement = False
         self._output_topic = output_topic
         self._pub = rospy.Publisher(self._output_topic, String, queue_size=0)
@@ -50,26 +50,20 @@ class Engagement_Node(BaseNode):
         Args:
             presence (Bool):  If True the human presence is detected, False otherwise.
         """
-        self._previus_human_presence = self._human_presence
         self._human_presence = presence.data
-        
-        if not self._previus_human_presence and self._human_presence:
-            self._engagement = True
-            self._reset = False
-        
-        if  self._previus_human_presence and not self._human_presence:
-            self._reset = True
         
         if self._verbose:
             if self._human_presence:
                 # State S1
+                    self._engagement = True
                     print('[Engagement]  Human presence is detected')
             else:
                 # State S0
+                    self._reset = True
                     print('[Engagement]  Human presence is not detected')
                     
     
-    def start(self, rate_value=1):
+    def start(self, rate_value=10):
             """
             Initializes the ROS node.
             
@@ -89,23 +83,33 @@ class Engagement_Node(BaseNode):
             """
             rospy.init_node(self._name_node, anonymous=True)
             rospy.Subscriber(HUMAN_PRESENCE_TOPIC, Bool, self._handle_transition_state)
-            rospy.on_shutdown(self._handle_shutdown)
+            #rospy.wait_for_service("hello")
+            if ON_PEPPER:
+                self._persistence_service_init("hello", Hello)
+                rospy.on_shutdown(self._handle_shutdown)
             rate = rospy.Rate(rate_value)
             while not rospy.is_shutdown():
+                
+                
+                if self._engagement:
+                    
+                    if self._verbose:
+                        print('[Engagement]  Engagement is detected')
+                    if ON_PEPPER:    
+                        self._persistence_service_call("hello")
+                    else:
+                        if self._verbose:
+                            print('[Engagement]  Gesture active')
+                    #self._pub.publish("Hello, I am Pepper, your personal assistant in the Shopping Mall")    
+                    self._engagement = False
+                
+                if self._reset:
+                    if self._verbose:
+                        print('[Engagement]  Reset is detected')
+                    self._pub_reset.publish("goodbye")
+                    self._reset = False
                 rate.sleep()
                 
-                if not self._engagement:
-                    if self._reset:
-                        self._pub_reset.publish("goodbye")
-                    self._reset = False
-                    continue
-                
-                if self._verbose:
-                    print('[Engagement]  Engagement is detected')
-                
-                self._pub.publish("Hello, I am Pepper, your personal assistant in the Shopping Mall")    
-                
-                self._engagement = False
 
 if __name__ == '__main__':
     try:

@@ -1,9 +1,8 @@
 from config import *
 import rospy
 from std_msgs.msg import Bool
-from threading import Lock
-
-class BaseNode(object):
+import time
+class BaseService(object):
     def __init__(self) -> None:
         self._persistent_services = dict()  # dict str -> Touple[func, module]
         
@@ -15,6 +14,7 @@ class BaseNode(object):
             service_name (str): the service name.
             service_srv (Module): the srv module.
         """
+        
         self._persistent_services[service_name] = (rospy.ServiceProxy(service_name, service_srv, persistent=True), service_srv)
 
     def _persistence_service_call(self, service_name, *args)-> any:

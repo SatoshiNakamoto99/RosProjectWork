@@ -1,0 +1,21 @@
+Il processo di integrazione dei moduli di face detection e speech to text ha richiesto, in una prima fase 
+un'attenta analisi dell'architettura ROS con lo scopo di seguire i ROS principls:
+    - Reuse off the shelf component
+    - Asynchronous comunication
+
+- Face Detection Node
+Per l'integrazione del modulo di Face Detection si è implementato un'architettura di tipo Publisher-Subscriber
+per sfruttare la sua naura asincriona.
+Abbiamo quindi un Publisher che è il nodo di acquisizione, ... , che acquisisce le immagini da un sensore visivo 
+e le pubblica sul topic 'in_rgb' con un certo frame rate.
+"
+
+Si è quindi implementato un nodo ROS 'Face_Detection_Node' che è sottoscritto ad un topic "\in_rgb" sul quale 
+pubblica il nodo di acquisizione, il 'Face_Dertection_Node' esegue un operazione di callback associata al
+suddetto topic, ottiene quindi l'immagine pubblicata sul topic la converte in un numpy array e ne ottiene il blob 
+il quale sarà l'input dato al modello in fase di predizione. Si verifica che l'output della fase di predizione sia
+almeno una faccia selezioniamo la faccia a cui è associato il bounded box con maggione livello di confidenza, 
+si confronta tale livello con una threshold e se per un certo numero di frame (GHOST FRAME ) c'è una variazione 
+di dallo stato precedente si pubblica il nuovo stato sul topic 'track/human_presence. Si noti che True corrisponde
+alla presenza della persona e false all'assenza. Lo stato iniziale si è false quindi se all'inizio non detecto una faccia 
+non pubblichero sul topic in quanto la pubblicazione avviene quando si verifica una transizione tra i due stati possibili

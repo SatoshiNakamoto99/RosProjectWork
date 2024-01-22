@@ -4,6 +4,7 @@ import numpy as np
 import rospy
 import speech_recognition as sr
 from std_msgs.msg import Int16MultiArray, Bool
+from pepper_nodes.srv import *
 
 class AudioNode(object):
     def __init__(self, row_audio_topic, verbose=True) -> None:
@@ -24,6 +25,7 @@ class AudioNode(object):
         self._pepper_talk_during_listening = False  
         self._lose_engage_during_listening = False
         self._start_listen = False
+        #self._r.adjust_for_ambient_noise(self._m, duration=CALIBRATION_TIME)
         
     def _handle_presence(self, presence):
         """
@@ -123,7 +125,7 @@ class AudioNode(object):
             rospy.init_node('audio_detected_node', anonymous=True)
             rospy.Subscriber(HUMAN_PRESENCE_TOPIC, Bool, self._handle_presence)
             rospy.Subscriber(PEPPER_TALK_TOPIC, Bool, self._handle_pepper_talk)
-            rate = rospy.Rate(1)
+            rate = rospy.Rate(5)
 
             while not rospy.is_shutdown():
                 rate.sleep()

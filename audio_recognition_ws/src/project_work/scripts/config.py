@@ -8,7 +8,6 @@ CALIBRATION_TIME = 0.2
 # Flag: if False, the working of the chatbot will be simulated with the command line.
 # -- In the use must be True.
 CHATBOT_RUNNING = False
-
 # Size of the time window for the computation of the mel spectrogram
 CHUNK_SIZE = 1024
 
@@ -17,7 +16,7 @@ CHUNK_SIZE = 1024
 FACE_MIN_DETECTION_CONFIDENCE = 0.8
 
 # The maximum number of frame with different state before changing that
-HUMAN_PRESENCE_GHOST_FRAME = 5
+HUMAN_PRESENCE_GHOST_FRAME = 10
 
 # Topic in witch a std_msgs/Bool will be published if an human is present or not. 
 HUMAN_PRESENCE_TOPIC = '/track/human_presence'
@@ -31,19 +30,19 @@ MICROPHONE_INDEX = None
 
 
 #If Model Classe is True I load the model opencv else resnet + ssd
-MODEL_CLASSE = False
+MODEL_CLASSE = True
 
 # Flag: If False, the services who need Pepper are not called. Useful for debug.
 # -- In the use must be True.
-ON_PEPPER = False
+ON_PEPPER = True
 
 # If true, the raw audio will be saved in a folder. We used that to made test at home.
 # -- In the use must be False (to improve the fastness).
-SAVE_RAW_AUDIO = True
+SAVE_RAW_AUDIO = False
 
 # If true, all the frame from the camera will be saved to make test at home.
 # -- In the use must be False (to improve the fastness).
-SAVE_RAW_FRAME = True
+SAVE_RAW_FRAME = False
 
 # Audio sample rate
 RATE = 16000

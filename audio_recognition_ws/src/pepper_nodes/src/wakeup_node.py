@@ -37,6 +37,7 @@ class WakeUpNode:
         try:
             self.motion_proxy.wakeUp()
             self.stand()
+            #self.motion_service.setAngles("Head", [0.0, -0.3], 0.2)
         except:
             self.motion_proxy = self.session.get_service("ALMotion")
             self.posture_proxy = self.session.get_service("ALRobotPosture")

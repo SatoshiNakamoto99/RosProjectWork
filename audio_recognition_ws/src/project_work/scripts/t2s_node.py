@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 from config import *
 import rospy
-from base_node import BaseNode
+from base_service import BaseService
 from std_msgs.msg import String ,  Bool
 from pepper_nodes.srv import Text2Speech
 from playsound import playsound
 from gtts import gTTS
 
-class t2s_node(BaseNode):
+class t2s_node(BaseService):
     def __init__(self, name_node, topic_pepper, verbose=True)-> None:
         """
         Initialize a Text to Speech node
@@ -91,8 +91,10 @@ class t2s_node(BaseNode):
         
         rospy.Subscriber(HUMAN_PRESENCE_TOPIC, Bool, self._handle_human_presence)
         rospy.Subscriber(CHATBOT_OUTPUT_TOPIC, String,self._handler_chatbot_output_presence)
-        rospy.on_shutdown(self._handle_shutdown)
+        
         if ON_PEPPER:    
+            rospy.on_shutdown(self._handle_shutdown)
+            #rospy.wait_for_service('tts')
             self._persistence_service_init('tts', Text2Speech)
         rate=rospy.Rate(rate_value)
 

@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 from config import *
-from base_node import BaseNode
+from base_service import BaseService
 import rospy
 from std_msgs.msg import String , Bool
 from rasa_ros.srv import Dialogue
+import time
 
-class DialogueNode(BaseNode):
+class DialogueNode(BaseService):
     def __init__(self, name_node, output_topic, verbose):
         """
         Initialize the DialogueNode class. DialogueNode is a ROS node that
-        DialogueNode inherits from the BaseNode class.
+        DialogueNode inherits from the BaseService class.
 
         Args:
             name_node (str): The name of the node.
@@ -23,6 +24,7 @@ class DialogueNode(BaseNode):
         self._input_text = String()
         self._output_topic = output_topic
         self._pub = rospy.Publisher(self._output_topic, String, queue_size=0)
+        self._human_presence = False
     
     def _handle_input_text(self, input_text):
         """"
@@ -42,6 +44,25 @@ class DialogueNode(BaseNode):
         if self._verbose:
             print('[Dialogue Node] Input text detected: {}'.format(self._input_text))
     
+    def _handle_transition_state(self, presence):
+        """
+        Callback function for the human presence topic.
+        
+        Sets the human presence flag to the value written on the topic.
+        
+        Store the previous human presence value. 
+        
+        If there is a transistion from state S0 in which the human presence is not detected 
+        to state S1 in which the human presence is detected, then set the engagement flag to True.
+        
+        If there is a transistion from state S1 in which the human presence is detected
+        to state S0 in which the human presence is not detected, then set the reset flag to True.
+        
+        
+        Args:
+            presence (Bool):  If True the human presence is detected, False otherwise.
+        """
+        self._human_presence = presence.data
     def _chatbot_interaction(self, text)-> str:
         
         """"
@@ -81,18 +102,24 @@ class DialogueNode(BaseNode):
             # Init the node
             rospy.init_node(self._name_node, anonymous=True)
             rospy.Subscriber(input_topic, String, self._handle_input_text)
-            rospy.on_shutdown(self._handle_shutdown)
-            # Init the Service
-            self._persistence_service_init('dialogue_server', Dialogue)
+            rospy.Subscriber(HUMAN_PRESENCE_TOPIC, Bool, self._handle_transition_state)
+            
+            
+            if CHATBOT_RUNNING:
+                rospy.on_shutdown(self._handle_shutdown)
+                #rospy.wait_for_service('dialogue_server')
+                self._persistence_service_init('dialogue_server', Dialogue)
             rate = rospy.Rate(rate_value)
             while not rospy.is_shutdown():
                 rate.sleep()
-                
-                if not self._input_text_peresence:
+                #
+                if not self._input_text_peresence or not self._human_presence:
+                        
+                    text = '/reset'
                     continue
                 
                 text = self._input_text
-                if (text == '' or text == 'ERR1' or text == 'ERR2'): 
+                if (text == '' or text == 'ERR1' or text == 'ERR2' or text == '/reset'): 
                     continue
                 else:
                     response_by_chatbot = self._chatbot_interaction(text)

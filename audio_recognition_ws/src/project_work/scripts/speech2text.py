@@ -22,7 +22,7 @@ class Speech2TextService(object):
         """Start the node and the Speech2Text service.
         """
         # Init the node
-        rospy.init_node('speech2text_service', anonymous=True)
+        rospy.init_node('speech2text_service')
         rospy.Service('s2t', Speech2Text, self._handle, buff_size=1)
         rospy.spin()
 
