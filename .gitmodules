@@ -1,0 +1,3 @@
+[submodule "audio_recognition_ws/src/rasa_ros/Bot_Cognitive_ChatGpt"]
+	path = audio_recognition_ws/src/rasa_ros/Bot_Cognitive_ChatGpt
+	url = https://github.com/SatoshiNakamoto99/Bot_Cognitive_ChatGpt.git
