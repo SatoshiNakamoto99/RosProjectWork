@@ -7,6 +7,9 @@ import time
 import numpy as np
 from pydub import AudioSegment
 TEST_PATH = os.path.dirname(os.path.abspath(__file__))
+from gtts import gTTS
+from playsound import playsound
+
 
 class Speech2TextNodeTest(object):
     def __init__(self):
@@ -118,20 +121,19 @@ class Speech2TextNodeTest(object):
         test_case_path = os.path.join(TEST_PATH,test_case_folder)
         # get groundtruth
         self._setup(test_case_path)
-        
-        #Per prendere l'audio e pubblicarlo sul topic USER_AUDIO_TOPIC
-        audio=self.__get_audio(os.path.join(test_case_path, "test_audio"))
+        audio=self.__get_audio(os.path.join(test_case_path,"test_audio"))
         if (len(audio)!=1): 
             audio_msg = Int16MultiArray(data=list(audio))
             #pubblico l'audio
             self._pub_user_audio.publish(audio_msg)#in questo modo il nodo s2t_node fa la s2t 
             #e pubblicherà il risultato su USER_INPUT_TOPIC
 
-        time.sleep(5)#per dare il tempo a s2t_node di lavorare
+        time.sleep(10s)#per dare il tempo a s2t_node di lavorare
         if (self._get_output()==None):
             self._set_output(False)#se entro in questo if il nodo s2t_node non ha pubblicato su USER_INPUT_TOPIC
         self._test()
-        self._cleanup()     
+        self._cleanup()  
+          
 
     def __response_s2t(self,text):
         """
@@ -156,6 +158,7 @@ class Speech2TextNodeTest(object):
         
         for test in test_cases:
             if test!="__pycache__" and test!="s2t_node_test.py" and test!="config.py":
+                
                 if not os.path.isfile(os.path.join(TEST_PATH,test)):
                     self._test_case(test)
         print("TEST FINISHED")

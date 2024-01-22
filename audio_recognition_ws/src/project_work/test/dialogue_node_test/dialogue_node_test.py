@@ -108,10 +108,11 @@ class DialogueNodeTest(object):
         self.__read_config(os.path.join(text_path, "config_test.json"))
         #pubblico su USER_INPUT_TOPIC il contenuto di config_test.json
         self._pub_user_input.publish(String(self.INPUT_FROM_USER))#dopo aver pubblicato
+        print("Ho pubblicato %s", self.INPUT_FROM_USER)
         #su questo topic il nodo dialogue_node farà la callback _handle_input_text
         #Se quello che pubblico è diverso da err1 e err2 o "" allora il dialogue_node publica su CHATBOT_OUTPUT_TOPIC
         print("inizio sleep")
-        time.sleep(5)#In questo modo il dialogue_node ha tempo di pubblicare su CHATBOT_OUTPUT_TOPIC,
+        time.sleep(10)#In questo modo il dialogue_node ha tempo di pubblicare su CHATBOT_OUTPUT_TOPIC,
         #di conseguenza questo nodo aggiorna il valore di output per poterlo poi confrontare con gt.
         if(self._get_output()==None):
             print("############_test_case")
