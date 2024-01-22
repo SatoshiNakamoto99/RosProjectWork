@@ -115,9 +115,7 @@ class EngagementNodeTest(object):
         else:
             if self._HUMAN_PRESENCE:
                 self._pub_human_presence.publish(Bool(True))
-            else:
-                self._pub_human_presence.publish(Bool(False))
-
+            
         #dopo aver pubblicato il nodo di engagement può valutare se fare o meno l'engagment
         #Se lo fa pubblica su CHATBOT_OUTPUT_TOPIC e quindi il nodo di engagement_node_test andrà
         #ad eseguire __response_by_chatbot
@@ -150,7 +148,7 @@ class EngagementNodeTest(object):
         Callback function for the USER_INPUT_TOPIC
 
         """
-        if(text.data=="goodbye"):
+        if(text.data=="/reset"):
             self._user_go_out=True
 
 
