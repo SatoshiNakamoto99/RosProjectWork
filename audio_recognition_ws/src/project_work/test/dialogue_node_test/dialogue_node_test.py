@@ -111,7 +111,7 @@ class DialogueNodeTest(object):
         #su questo topic il nodo dialogue_node farà la callback _handle_input_text
         #Se quello che pubblico è diverso da err1 e err2 o "" allora il dialogue_node publica su CHATBOT_OUTPUT_TOPIC
         print("inizio sleep")
-        time.sleep(10)#In questo modo il dialogue_node ha tempo di pubblicare su CHATBOT_OUTPUT_TOPIC,
+        time.sleep(5)#In questo modo il dialogue_node ha tempo di pubblicare su CHATBOT_OUTPUT_TOPIC,
         #di conseguenza questo nodo aggiorna il valore di output per poterlo poi confrontare con gt.
         if(self._get_output()==None):
             print("############_test_case")

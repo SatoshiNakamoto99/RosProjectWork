@@ -1,1 +1,2 @@
-No face (withy ghost situations)
+False,True,False,True
+No person, entering, outgoing, entering
