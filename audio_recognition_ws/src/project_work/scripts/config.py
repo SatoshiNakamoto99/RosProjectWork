@@ -16,7 +16,7 @@ CHUNK_SIZE = 1024
 FACE_MIN_DETECTION_CONFIDENCE = 0.8
 
 # The maximum number of frame with different state before changing that
-HUMAN_PRESENCE_GHOST_FRAME = 10
+HUMAN_PRESENCE_GHOST_FRAME = 5
 
 # Topic in witch a std_msgs/Bool will be published if an human is present or not. 
 HUMAN_PRESENCE_TOPIC = '/track/human_presence'
@@ -30,11 +30,11 @@ MICROPHONE_INDEX = None
 
 
 #If Model Classe is True I load the model opencv else resnet + ssd
-MODEL_CLASSE = True
+MODEL_CLASSE = False
 
 # Flag: If False, the services who need Pepper are not called. Useful for debug.
 # -- In the use must be True.
-ON_PEPPER = True
+ON_PEPPER = False
 
 # If true, the raw audio will be saved in a folder. We used that to made test at home.
 # -- In the use must be False (to improve the fastness).
