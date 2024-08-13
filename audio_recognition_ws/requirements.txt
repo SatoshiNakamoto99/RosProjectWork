@@ -4,7 +4,7 @@ cv_bridge==1.16.2
 genpy==0.6.15
 gTTS==2.5.0
 numpy==1.23.5
-numpy==1.17.4
+numpy==1.22.0
 opencv_python==4.8.1.78
 playsound==1.3.0
 qi==3.0.0
